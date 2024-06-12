@@ -8,6 +8,11 @@ body {
     display: flex;
 }
 
+.list_navbar {
+    display: flex;
+    align-items: center;
+}
+
 .toDo {
     width: 400px;
     height: 600px;
