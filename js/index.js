@@ -47,12 +47,22 @@ function onSubmit(e) {
 function addTask(e) {
   e.preventDefault();
   const taskName = e.target.elements.task_name.value;
-  localStorage.setItem("taskName", taskName.toString());
+  const task_area = document.getElementById("textaria");
+  const taskDescription = task_area.value;
+  console.log(taskDescription);
   const task = document.createElement("div");
   task.classList.add("btn-secondary", "btn");
   task.textContent = taskName;
   todo.append(task);
   console.log("its works");
+  task.setAttribute("data-bs-toggle", "modal");
+  task.setAttribute("data-bs-target", "#task_modal");
+  const task_modal_name = document.getElementById("task_name_modal");
+  task_modal_name.textContent = taskName;
+  const task_modal_description = document.querySelector(
+    ".task_description_modal"
+  );
+  task_modal_description.textContent = taskDescription;
 }
 
 form.addEventListener("submit", onSubmit);
