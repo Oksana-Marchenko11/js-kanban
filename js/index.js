@@ -17,8 +17,8 @@ const done = document.createElement("div");
 done.classList.add("toDo", "droppable");
 done.textContent = "Done";
 
+// SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);
-
 function onSubmit(e) {
   e.preventDefault();
   value = formCreateProgect.elements.project_name.value;
@@ -42,7 +42,7 @@ function onSubmit(e) {
   formAddTask.addEventListener("submit", addTask);
   container.append(todo, doing, done);
 }
-
+// FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
   e.preventDefault();
   const taskName = e.target.elements.task_name.value;
@@ -69,7 +69,6 @@ function addTask(e) {
 
   //MOUSE DOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   task.addEventListener("mousedown", onmousedown);
-
   function onmousedown(event) {
     let shiftX = event.clientX - task.getBoundingClientRect().left;
     let shiftY = event.clientY - task.getBoundingClientRect().top;
@@ -81,8 +80,8 @@ function addTask(e) {
       task.style.left = pageX - shiftX + "px";
       task.style.top = pageY - shiftY + "px";
     }
+    //MOUSE MOVE////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     document.addEventListener("mousemove", onMouseMove);
-
     function onMouseMove(event) {
       todo.classList.add("grey");
       doing.classList.add("grey");
@@ -95,6 +94,7 @@ function addTask(e) {
       let droppableBelow = elemBelow.closest(".droppable") || undefined;
       if (droppableBelow) {
         droppableBelow.classList.remove("grey");
+        //MOUSE UP////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         task.addEventListener("mouseup", function () {
           console.log("Mouse up event fired");
           task.style.position = "static";
