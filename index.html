@@ -24,7 +24,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 list_navbar">
                         <li class="nav-item">
                             <button type="button" class="btn btn-primary create_prog" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
+                                data-bs-target="#create_progect_modal">
                                 Create progect
                             </button>
                         </li>
@@ -41,8 +41,8 @@
     <main>
         <section class="section-main">
             <div class="container-main"></div>
-            <!-- Modal 1-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <!-- Modal CREATE PROGECT-->
+            <div class="modal fade" id="create_progect_modal" tabindex="-1" aria-labelledby="create_progect_modal"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -50,7 +50,7 @@
                             <h5 class="modal-title" id="exampleModalLabel">Name Your Progect</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form class="form-modal">
+                        <form class="form_create_project">
                             <div class="modal-body">
                                 <input type="text" name="project_name" id="modal-input" class="form-control"
                                     placeholder="My project" aria-label="Project name"
@@ -65,8 +65,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal 2 -->
-            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2"
+            <!-- Modal CREATE TASK -->
+            <div class="modal fade" id="create_task_modal" tabindex="-1" aria-labelledby="create_task_modal"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -74,7 +74,7 @@
                             <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form class="form-modal2">
+                        <form class="form_add_task">
                             <div class="modal-body">
                                 <input type="text" name="task_name" id="modal-input" class="form-control"
                                     placeholder="My project" aria-label="Project name"
@@ -91,8 +91,9 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal Task -->
-            <div class="modal fade" id="task_modal" tabindex="-1" aria-labelledby="task_modal" aria-hidden="true">
+            <!-- Modal TASK DESCRIPTION -->
+            <div class="modal fade" id="task_descroption_modal" tabindex="-1" aria-labelledby="task_descroption_modal"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

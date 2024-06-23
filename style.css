@@ -21,3 +21,15 @@ body {
     margin-left: 15px;
     margin-top: 15px;
 }
+
+.grey {
+    background-color: gray;
+}
+
+.white {
+    background-color: white;
+}
+
+.red {
+    border: 2px solid brown;
+}
