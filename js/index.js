@@ -7,34 +7,49 @@ const buttonCreateProject = document.querySelector(".create_prog");
 
 const todo = document.createElement("div");
 todo.classList.add("toDo", "droppable");
-todo.setAttribute("ondrop", "drop(event)");
-todo.setAttribute("ondragover", "allowDrop(event)");
 todo.textContent = "ToDO";
 
 const doing = document.createElement("div");
 doing.classList.add("toDo", "droppable");
-doing.setAttribute("ondrop", "drop(event)");
-doing.setAttribute("ondragover", "allowDrop(event)");
 doing.textContent = "In process";
 
 const done = document.createElement("div");
 done.classList.add("toDo", "droppable");
-done.setAttribute("ondrop", "drop(event)");
-done.setAttribute("ondragover", "allowDrop(event)");
 done.textContent = "Done";
+
+[todo, doing, done].forEach((elem) =>
+  elem.addEventListener("dragover", allowDrop)
+);
+[todo, doing, done].forEach((elem) => elem.addEventListener("drop", drop));
+[todo, doing, done].forEach((elem) =>
+  elem.addEventListener("dragleave", dragleave)
+);
 
 function allowDrop(event) {
   event.preventDefault();
-  event.target.style.backgroundColor = "";
+  if (event.target.classList.contains("droppable")) {
+    event.target.style.backgroundColor = "";
+  }
+  [todo, doing, done].forEach((elem) =>
+    elem.addEventListener("dragleave", dragleave)
+  );
+}
+function dragleave(event) {
+  console.log("dragleave");
+  if (event.target.classList.contains("droppable")) {
+    event.target.style.backgroundColor = "grey";
+  }
 }
 
 function drop(event) {
   event.preventDefault();
   var data = event.dataTransfer.getData("text/plain");
   var draggedElement = document.getElementById(data);
-
   draggedElement.style.position = "static";
   event.target.appendChild(draggedElement);
+  document.querySelectorAll(".droppable").forEach(function (element) {
+    element.style.backgroundColor = "";
+  });
 }
 // SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);

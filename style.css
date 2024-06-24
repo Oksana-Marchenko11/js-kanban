@@ -27,7 +27,7 @@ body {
 }
 
 .white {
-    background-color: white;
+    background-color: inherit;
 }
 
 .red {
