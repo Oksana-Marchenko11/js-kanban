@@ -7,16 +7,35 @@ const buttonCreateProject = document.querySelector(".create_prog");
 
 const todo = document.createElement("div");
 todo.classList.add("toDo", "droppable");
+todo.setAttribute("ondrop", "drop(event)");
+todo.setAttribute("ondragover", "allowDrop(event)");
 todo.textContent = "ToDO";
 
 const doing = document.createElement("div");
 doing.classList.add("toDo", "droppable");
+doing.setAttribute("ondrop", "drop(event)");
+doing.setAttribute("ondragover", "allowDrop(event)");
 doing.textContent = "In process";
 
 const done = document.createElement("div");
 done.classList.add("toDo", "droppable");
+done.setAttribute("ondrop", "drop(event)");
+done.setAttribute("ondragover", "allowDrop(event)");
 done.textContent = "Done";
 
+function allowDrop(event) {
+  event.preventDefault();
+  event.target.style.backgroundColor = "";
+}
+
+function drop(event) {
+  event.preventDefault();
+  var data = event.dataTransfer.getData("text/plain");
+  var draggedElement = document.getElementById(data);
+
+  draggedElement.style.position = "static";
+  event.target.appendChild(draggedElement);
+}
 // SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);
 function onSubmit(e) {
@@ -55,6 +74,8 @@ function addTask(e) {
   todo.append(task);
   task.setAttribute("data-bs-toggle", "modal");
   task.setAttribute("data-bs-target", "#task_descroption_modal");
+  task.setAttribute("draggable", true);
+  task.setAttribute("id", "task_id");
 
   const task_modal_name = document.getElementById("task_name_modal");
   task_modal_name.textContent = taskName;
@@ -62,73 +83,14 @@ function addTask(e) {
     ".task_description_modal"
   );
   task_modal_description.textContent = taskDescription;
-
-  let currentDroppable;
-
-  // task.addEventListener("click", modalTask.show());
-
-  //MOUSE DOWN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  task.addEventListener("mousedown", onmousedown);
-  function onmousedown(event) {
-    let shiftX = event.clientX - task.getBoundingClientRect().left;
-    let shiftY = event.clientY - task.getBoundingClientRect().top;
-    task.style.position = "absolute";
-    task.style.zIndex = 1000;
-    document.body.append(task);
-
-    function moveAt(pageX, pageY) {
-      task.style.left = pageX - shiftX + "px";
-      task.style.top = pageY - shiftY + "px";
-    }
-    //MOUSE MOVE////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    document.addEventListener("mousemove", onMouseMove);
-    function onMouseMove(event) {
-      todo.classList.add("grey");
-      doing.classList.add("grey");
-      done.classList.add("grey");
-      moveAt(event.pageX, event.pageY);
-      task.hidden = true;
-      let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-      task.hidden = false;
-
-      let droppableBelow = elemBelow.closest(".droppable") || undefined;
-      if (droppableBelow) {
-        droppableBelow.classList.remove("grey");
-        //MOUSE UP////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        task.addEventListener("mouseup", function () {
-          console.log("Mouse up event fired");
-          task.style.position = "static";
-          droppableBelow.append(task);
-          currentDroppable = droppableBelow;
-        });
-      }
-    }
-
-    // if (!elemBelow) return;
-
-    // let droppableBelow = elemBelow.closest(".droppable");
-
-    // if (currentDroppable !== droppableBelow) {
-    //   if (currentDroppable) {
-    //     leaveDroppable(currentDroppable);
-    //   }
-    //   currentDroppable = droppableBelow;
-    //   if (currentDroppable) {
-    //     enterDroppable(currentDroppable);
-    //   }
-    // }
-    // doing.onmouseover = function () {
-    //   console.log("a");
-    //   doing.classList.add("red");
-    // };
-    // doing.onmouseout = function () {
-    //   console.log("b");
-    //   doing.classList.remove("red");
-    // };
+  function dragstart_handler(event) {
+    event.dataTransfer.setData("text/plain", event.target.id);
+    event.dataTransfer.dropEffect = "move";
+    event.dataTransfer.effectAllowed = "move";
+    console.log(event.dataTransfer);
+    document.querySelectorAll(".droppable").forEach(function (element) {
+      element.style.backgroundColor = "grey";
+    });
   }
-
-  // task.onmouseup = function () {
-  //   document.removeEventListener("mousemove", onMouseMove);
-  //   task.onmouseup = null;
-  // };
+  task.addEventListener("dragstart", dragstart_handler);
 }
