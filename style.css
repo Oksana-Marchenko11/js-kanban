@@ -4,8 +4,9 @@ body {
     background-color: rgb(138, 199, 204);
 }
 
-.container-main {
+.container_main {
     display: flex;
+    padding: 25px;
 }
 
 .list_navbar {
@@ -14,16 +15,13 @@ body {
 }
 
 .toDo {
-    width: 400px;
-    height: 600px;
+    /* width: 400px; */
+    min-height: 600px;
     background-color: antiquewhite;
     border-radius: 4px;
     margin-left: 15px;
     margin-top: 15px;
-}
-
-.grey {
-    background-color: gray;
+    flex-grow: 1;
 }
 
 .white {
@@ -32,4 +30,12 @@ body {
 
 .red {
     border: 2px solid brown;
+}
+
+.card-header {
+    height: 35px;
+}
+
+.column_tile {
+    font-size: 18px;
 }

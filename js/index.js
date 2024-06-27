@@ -1,56 +1,61 @@
 const navbarList = document.querySelector(".navbar-nav");
 const formCreateProgect = document.querySelector(".form_create_project");
 const formAddTask = document.querySelector(".form_add_task");
-const container = document.querySelector(".container-main");
+const container = document.querySelector(".container_main");
 const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
 
-const todo = document.createElement("div");
-todo.classList.add("toDo", "droppable");
-todo.textContent = "ToDO";
+//FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const createColumStart = (columnHeader, headerColor) => {
+  const newColumn = document.createElement("div");
+  newColumn.classList.add("toDo", "droppable", "card");
+  newColumn.innerHTML = `<div class="card-header ${headerColor}\
+     text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
+  container.appendChild(newColumn);
+};
+const createColumNew = (columnHeader, headerColor) => {
+  const newColumn = document.createElement("div");
+  newColumn.classList.add("toDo", "droppable", "card");
+  newColumn.innerHTML = `<div class="card-header ${headerColor}\
+     text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
+  container.appendChild(newColumn);
+};
 
-const doing = document.createElement("div");
-doing.classList.add("toDo", "droppable");
-doing.textContent = "In process";
+// DRAG DROP//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// [todo, doing, done].forEach((elem) =>
+//   elem.addEventListener("dragover", allowDrop)
+// );
+// [todo, doing, done].forEach((elem) => elem.addEventListener("drop", drop));
+// [todo, doing, done].forEach((elem) =>
+//   elem.addEventListener("dragleave", dragleave)
+// );
 
-const done = document.createElement("div");
-done.classList.add("toDo", "droppable");
-done.textContent = "Done";
+// function allowDrop(event) {
+//   event.preventDefault();
+//   if (event.target.classList.contains("droppable")) {
+//     event.target.style.backgroundColor = "";
+//   }
+//   [todo, doing, done].forEach((elem) =>
+//     elem.addEventListener("dragleave", dragleave)
+//   );
+// }
+// function dragleave(event) {
+//   console.log("dragleave");
+//   if (event.target.classList.contains("droppable")) {
+//     event.target.style.backgroundColor = "grey";
+//   }
+// }
 
-[todo, doing, done].forEach((elem) =>
-  elem.addEventListener("dragover", allowDrop)
-);
-[todo, doing, done].forEach((elem) => elem.addEventListener("drop", drop));
-[todo, doing, done].forEach((elem) =>
-  elem.addEventListener("dragleave", dragleave)
-);
-
-function allowDrop(event) {
-  event.preventDefault();
-  if (event.target.classList.contains("droppable")) {
-    event.target.style.backgroundColor = "";
-  }
-  [todo, doing, done].forEach((elem) =>
-    elem.addEventListener("dragleave", dragleave)
-  );
-}
-function dragleave(event) {
-  console.log("dragleave");
-  if (event.target.classList.contains("droppable")) {
-    event.target.style.backgroundColor = "grey";
-  }
-}
-
-function drop(event) {
-  event.preventDefault();
-  var data = event.dataTransfer.getData("text/plain");
-  var draggedElement = document.getElementById(data);
-  draggedElement.style.position = "static";
-  event.target.appendChild(draggedElement);
-  document.querySelectorAll(".droppable").forEach(function (element) {
-    element.style.backgroundColor = "";
-  });
-}
+// function drop(event) {
+//   event.preventDefault();
+//   var data = event.dataTransfer.getData("text/plain");
+//   var draggedElement = document.getElementById(data);
+//   draggedElement.style.position = "static";
+//   event.target.appendChild(draggedElement);
+//   document.querySelectorAll(".droppable").forEach(function (element) {
+//     element.style.backgroundColor = "";
+//   });
+// }
 // SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);
 function onSubmit(e) {
@@ -74,7 +79,12 @@ function onSubmit(e) {
   button_add_column = document.querySelector(".add_column");
   button_add_task = document.querySelector(".add_task");
   formAddTask.addEventListener("submit", addTask);
-  container.append(todo, doing, done);
+  button_add_column.addEventListener("click", () => {
+    createColumNew("New", "bg-info");
+  });
+  createColumStart("toDo", "bg-secondary");
+  createColumStart("Doing", "bg-warning");
+  createColumStart("Done", "bg-danger");
 }
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
