@@ -1,7 +1,7 @@
 const navbarList = document.querySelector(".navbar-nav");
 const formCreateProgect = document.querySelector(".form_create_project");
 const formAddTask = document.querySelector(".form_add_task");
-const container = document.querySelector(".container_main");
+const container = document.querySelector(".row");
 const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
 
@@ -12,7 +12,7 @@ function allowDrop(event) {
   if (event.target.classList.contains("droppable")) {
     event.target.style.backgroundColor = "";
   }
-  newColumn.addEventListener("dragleave", dragleave);
+  newCard.addEventListener("dragleave", dragleave);
 }
 function dragleave(event) {
   console.log("dragleave");
@@ -35,23 +35,29 @@ function drop(event) {
 //FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const createColumStart = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
-  newColumn.classList.add("column", "droppable", "card");
-  newColumn.innerHTML = `<div class="card-header ${headerColor}\
+  newColumn.classList.add("col");
+  const newCard = document.createElement("div");
+  newCard.classList.add("column", "droppable", "card");
+  newCard.innerHTML = `<div class="card-header ${headerColor}\
      text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
   container.appendChild(newColumn);
+  newColumn.appendChild(newCard);
 
-  newColumn.addEventListener("dragover", allowDrop);
-  newColumn.addEventListener("drop", drop);
+  newCard.addEventListener("dragover", allowDrop);
+  newCard.addEventListener("drop", drop);
 };
 const createColumNew = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
-  newColumn.classList.add("column", "droppable", "card");
-  newColumn.innerHTML = `<div class="card-header ${headerColor}\
+  newColumn.classList.add("col");
+  const newCard = document.createElement("div");
+  newCard.classList.add("column", "droppable", "card");
+  newCard.innerHTML = `<div class="card-header ${headerColor}\
      text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
   container.appendChild(newColumn);
+  newColumn.appendChild(newCard);
 
-  newColumn.addEventListener("dragover", allowDrop);
-  newColumn.addEventListener("drop", drop);
+  newCard.addEventListener("dragover", allowDrop);
+  newCard.addEventListener("drop", drop);
 };
 
 // SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////

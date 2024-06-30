@@ -40,70 +40,77 @@
     </header>
     <main>
         <section class="section-main">
-            <div class="container_main"></div>
-            <!-- Modal CREATE PROGECT-->
-            <div class="modal fade" id="create_progect_modal" tabindex="-1" aria-labelledby="create_progect_modal"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Name Your Progect</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="container-fluid">
+                <div class="row row-cols-$grid-row-columns: 6 !default">
+                </div>
+                <!-- Modal CREATE PROGECT-->
+                <div class="modal fade" id="create_progect_modal" tabindex="-1" aria-labelledby="create_progect_modal"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Name Your Progect</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form class="form_create_project">
+                                <div class="modal-body">
+                                    <input type="text" name="project_name" id="modal-input" class="form-control"
+                                        placeholder="My project" aria-label="Project name"
+                                        aria-describedby="addon-wrapping">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
+                                        changes</button>
+                                </div>
+                            </form>
                         </div>
-                        <form class="form_create_project">
-                            <div class="modal-body">
-                                <input type="text" name="project_name" id="modal-input" class="form-control"
-                                    placeholder="My project" aria-label="Project name"
-                                    aria-describedby="addon-wrapping">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
-                                    changes</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </div>
-            <!-- Modal CREATE TASK -->
-            <div class="modal fade" id="create_task_modal" tabindex="-1" aria-labelledby="create_task_modal"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form class="form_add_task">
-                            <div class="modal-body">
-                                <input type="text" name="task_name" id="modal-input" class="form-control"
-                                    placeholder="My project" aria-label="Project name"
-                                    aria-describedby="addon-wrapping">
-                                <label for="textaria"></label>
-                                <textarea id="textaria" name="task_description"></textarea>
+                <!-- Modal CREATE TASK -->
+                <div class="modal fade" id="create_task_modal" tabindex="-1" aria-labelledby="create_task_modal"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form class="form_add_task">
+                                <div class="modal-body">
+                                    <input type="text" name="task_name" id="modal-input" class="form-control"
+                                        placeholder="My project" aria-label="Project name"
+                                        aria-describedby="addon-wrapping">
+                                    <label for="textaria"></label>
+                                    <textarea id="textaria" name="task_description"></textarea>
 
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal TASK DESCRIPTION -->
-            <div class="modal fade" id="task_descroption_modal" tabindex="-1" aria-labelledby="task_descroption_modal"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="task_name_modal">Name Your Column</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                                </div>
+                            </form>
                         </div>
-                        <p class="task_description_modal"></p>
                     </div>
                 </div>
-            </div>
+                <!-- Modal TASK DESCRIPTION -->
+                <div class="modal fade" id="task_descroption_modal" tabindex="-1"
+                    aria-labelledby="task_descroption_modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="task_name_modal">Name Your Column</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <p class="task_description_modal"></p>
+                        </div>
+                    </div>
+                </div>
         </section>
     </main>
     <script src="./js/index.js"></script>
