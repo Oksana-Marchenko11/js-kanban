@@ -5,57 +5,55 @@ const container = document.querySelector(".container_main");
 const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
 
+//FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function allowDrop(event) {
+  event.preventDefault();
+  if (event.target.classList.contains("droppable")) {
+    event.target.style.backgroundColor = "";
+  }
+  newColumn.addEventListener("dragleave", dragleave);
+}
+function dragleave(event) {
+  console.log("dragleave");
+  if (event.target.classList.contains("droppable")) {
+    event.target.style.backgroundColor = "grey";
+  }
+}
+
+function drop(event) {
+  event.preventDefault();
+  var data = event.dataTransfer.getData("text/plain");
+  var draggedElement = document.getElementById(data);
+  draggedElement.style.position = "static";
+  event.target.appendChild(draggedElement);
+  document.querySelectorAll(".droppable").forEach(function (element) {
+    element.style.backgroundColor = "";
+  });
+}
+
 //FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const createColumStart = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
-  newColumn.classList.add("toDo", "droppable", "card");
+  newColumn.classList.add("column", "droppable", "card");
   newColumn.innerHTML = `<div class="card-header ${headerColor}\
      text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
   container.appendChild(newColumn);
+
+  newColumn.addEventListener("dragover", allowDrop);
+  newColumn.addEventListener("drop", drop);
 };
 const createColumNew = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
-  newColumn.classList.add("toDo", "droppable", "card");
+  newColumn.classList.add("column", "droppable", "card");
   newColumn.innerHTML = `<div class="card-header ${headerColor}\
      text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
   container.appendChild(newColumn);
+
+  newColumn.addEventListener("dragover", allowDrop);
+  newColumn.addEventListener("drop", drop);
 };
 
-// DRAG DROP//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// [todo, doing, done].forEach((elem) =>
-//   elem.addEventListener("dragover", allowDrop)
-// );
-// [todo, doing, done].forEach((elem) => elem.addEventListener("drop", drop));
-// [todo, doing, done].forEach((elem) =>
-//   elem.addEventListener("dragleave", dragleave)
-// );
-
-// function allowDrop(event) {
-//   event.preventDefault();
-//   if (event.target.classList.contains("droppable")) {
-//     event.target.style.backgroundColor = "";
-//   }
-//   [todo, doing, done].forEach((elem) =>
-//     elem.addEventListener("dragleave", dragleave)
-//   );
-// }
-// function dragleave(event) {
-//   console.log("dragleave");
-//   if (event.target.classList.contains("droppable")) {
-//     event.target.style.backgroundColor = "grey";
-//   }
-// }
-
-// function drop(event) {
-//   event.preventDefault();
-//   var data = event.dataTransfer.getData("text/plain");
-//   var draggedElement = document.getElementById(data);
-//   draggedElement.style.position = "static";
-//   event.target.appendChild(draggedElement);
-//   document.querySelectorAll(".droppable").forEach(function (element) {
-//     element.style.backgroundColor = "";
-//   });
-// }
 // SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);
 function onSubmit(e) {
@@ -93,10 +91,11 @@ function addTask(e) {
   const task_area = document.getElementById("textaria");
   const taskDescription = task_area.value;
   const task = document.createElement("div");
+  const column = document.querySelector(".column");
 
   task.classList.add("btn-secondary", "btn", "task");
   task.textContent = taskName;
-  todo.append(task);
+  column.append(task);
   task.setAttribute("data-bs-toggle", "modal");
   task.setAttribute("data-bs-target", "#task_descroption_modal");
   task.setAttribute("draggable", true);
@@ -108,11 +107,12 @@ function addTask(e) {
     ".task_description_modal"
   );
   task_modal_description.textContent = taskDescription;
+
   function dragstart_handler(event) {
     event.dataTransfer.setData("text/plain", event.target.id);
     event.dataTransfer.dropEffect = "move";
     event.dataTransfer.effectAllowed = "move";
-    console.log(event.dataTransfer);
+    // console.log(event.dataTransfer);
     document.querySelectorAll(".droppable").forEach(function (element) {
       element.style.backgroundColor = "grey";
     });
