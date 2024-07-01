@@ -75,7 +75,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -85,7 +85,7 @@
                                         placeholder="My project" aria-label="Project name"
                                         aria-describedby="addon-wrapping">
                                     <label for="textaria"></label>
-                                    <textarea id="textaria" name="task_description"></textarea>
+                                    <textarea class="textaria_task" id="textaria" name="task_description"></textarea>
 
                                 </div>
                                 <div class="modal-footer">
@@ -100,14 +100,17 @@
                 <!-- Modal TASK DESCRIPTION -->
                 <div class="modal fade" id="task_descroption_modal" tabindex="-1"
                     aria-labelledby="task_descroption_modal" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content" style="height: 80vh">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="task_name_modal">Name Your Column</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <p class="task_description_modal"></p>
+                            <div class="modal-body">
+                                <p class="task_description_modal">
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

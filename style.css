@@ -1,7 +1,6 @@
 body {
     margin: 0;
     height: 100vh;
-    background-color: rgb(138, 199, 204);
 }
 
 .list_navbar {
@@ -11,7 +10,7 @@ body {
 
 .column {
     min-height: 600px;
-    background-color: antiquewhite;
+    background-color: bg-light;
     border-radius: 4px;
     margin-top: 10px;
     flex-grow: 1;
@@ -31,4 +30,13 @@ body {
 
 .column_tile {
     font-size: 18px;
+}
+
+.task_description_modal {
+    overflow-wrap: break-word;
+}
+
+.textaria_task {
+    width: 100%;
+    height: 400px;
 }

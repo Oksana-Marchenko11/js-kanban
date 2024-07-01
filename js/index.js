@@ -84,11 +84,11 @@ function onSubmit(e) {
   button_add_task = document.querySelector(".add_task");
   formAddTask.addEventListener("submit", addTask);
   button_add_column.addEventListener("click", () => {
-    createColumNew("New", "bg-info");
+    createColumNew("New", "bg-warning");
   });
-  createColumStart("toDo", "bg-secondary");
+  createColumStart("toDo", "bg-warning");
   createColumStart("Doing", "bg-warning");
-  createColumStart("Done", "bg-danger");
+  createColumStart("Done", "bg-warning");
 }
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
@@ -97,9 +97,10 @@ function addTask(e) {
   const task_area = document.getElementById("textaria");
   const taskDescription = task_area.value;
   const task = document.createElement("div");
+
   const column = document.querySelector(".column");
 
-  task.classList.add("btn-secondary", "btn", "task");
+  task.classList.add("bg-primary", "text-white");
   task.textContent = taskName;
   column.append(task);
   task.setAttribute("data-bs-toggle", "modal");
