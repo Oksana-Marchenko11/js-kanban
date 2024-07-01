@@ -10,7 +10,7 @@ body {
 
 .column {
     min-height: 600px;
-    background-color: bg-light;
+    min-width: 350px;
     border-radius: 4px;
     margin-top: 10px;
     flex-grow: 1;
@@ -39,4 +39,9 @@ body {
 .textaria_task {
     width: 100%;
     height: 400px;
+}
+
+.kb_row_container {
+    overflow-x: auto;
+    flex-wrap: nowrap;
 }

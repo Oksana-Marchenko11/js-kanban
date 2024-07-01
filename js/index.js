@@ -35,11 +35,12 @@ function drop(event) {
 //FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const createColumStart = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
-  newColumn.classList.add("col");
+  newColumn.classList.add("col", "kb_column");
   const newCard = document.createElement("div");
-  newCard.classList.add("column", "droppable", "card");
+  newCard.classList.add("column", "droppable", "card", "kb_column");
   newCard.innerHTML = `<div class="card-header ${headerColor}\
      text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
+  container.classList.add("kb_row_container");
   container.appendChild(newColumn);
   newColumn.appendChild(newCard);
 
