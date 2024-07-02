@@ -38,6 +38,11 @@ body {
 }
 
 /* Task//////////////////////////////////////////////////////////////////////////////////// */
+.kb_task_header_modal {
+    display: block;
+    overflow-wrap: break-word;
+}
+
 .task_description_modal {
     overflow-wrap: break-word;
 }

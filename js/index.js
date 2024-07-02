@@ -105,11 +105,11 @@ function addTask(e) {
   task.textContent = taskName;
   card.append(task);
   task.setAttribute("data-bs-toggle", "modal");
-  task.setAttribute("data-bs-target", "#task_descroption_modal");
+  task.setAttribute("data-bs-target", "#task_description_modal");
   task.setAttribute("draggable", true);
   task.setAttribute("id", "task_id");
 
-  const task_modal_name = document.getElementById("task_name_modal");
+  const task_modal_name = document.querySelector(".kb_task_name_modal");
   task_modal_name.textContent = taskName;
   const task_modal_description = document.querySelector(
     ".task_description_modal"
