@@ -37,9 +37,9 @@ const createColumStart = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
   newColumn.classList.add("col", "kb_column");
   const newCard = document.createElement("div");
-  newCard.classList.add("column", "droppable", "card", "kb_column");
+  newCard.classList.add("droppable", "card", "kb_card");
   newCard.innerHTML = `<div class="card-header ${headerColor}\
-     text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
+     text-white"><h3 class="kb_card_tile">${columnHeader}</h3></div>`;
   container.classList.add("kb_row_container");
   container.appendChild(newColumn);
   newColumn.appendChild(newCard);
@@ -49,11 +49,11 @@ const createColumStart = (columnHeader, headerColor) => {
 };
 const createColumNew = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
-  newColumn.classList.add("col");
+  newColumn.classList.add("col", "kb_column");
   const newCard = document.createElement("div");
-  newCard.classList.add("column", "droppable", "card");
+  newCard.classList.add("droppable", "card", "kb_card");
   newCard.innerHTML = `<div class="card-header ${headerColor}\
-     text-white"><h3 class="column_tile">${columnHeader}</h3></div>`;
+     text-white"><h3 class="kb_card_tile">${columnHeader}</h3></div>`;
   container.appendChild(newColumn);
   newColumn.appendChild(newCard);
 
@@ -99,11 +99,11 @@ function addTask(e) {
   const taskDescription = task_area.value;
   const task = document.createElement("div");
 
-  const column = document.querySelector(".column");
+  const card = document.querySelector(".kb_card");
 
-  task.classList.add("bg-primary", "text-white");
+  task.classList.add("bg-primary", "text-white", "card", "kb_task_card");
   task.textContent = taskName;
-  column.append(task);
+  card.append(task);
   task.setAttribute("data-bs-toggle", "modal");
   task.setAttribute("data-bs-target", "#task_descroption_modal");
   task.setAttribute("draggable", true);

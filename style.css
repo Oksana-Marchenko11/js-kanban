@@ -8,30 +8,36 @@ body {
     align-items: center;
 }
 
-.column {
+.kb_row_container {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    margin-top: 10px;
+}
+
+.kb_column {
     min-height: 600px;
     min-width: 350px;
     border-radius: 4px;
-    margin-top: 10px;
-    flex-grow: 1;
+    border: 1px solid blue;
 }
 
-.white {
-    background-color: inherit;
-}
-
-.red {
-    border: 2px solid brown;
+/* Card in column////////////////////////////////////////////////////////////////////////// */
+.kb_card {
+    width: 100%;
+    height: 100%;
+    align-items: center;
 }
 
 .card-header {
     height: 35px;
+    width: 100%;
 }
 
-.column_tile {
+.kb_card_tile {
     font-size: 18px;
 }
 
+/* Task//////////////////////////////////////////////////////////////////////////////////// */
 .task_description_modal {
     overflow-wrap: break-word;
 }
@@ -41,7 +47,8 @@ body {
     height: 400px;
 }
 
-.kb_row_container {
-    overflow-x: auto;
-    flex-wrap: nowrap;
+.kb_task_card {
+    height: 75px;
+    width: 90%;
+    margin-top: 12px;
 }
