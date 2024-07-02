@@ -52,7 +52,8 @@ const createColumStart = (columnHeader, headerColor) => {
 //NEW COLUMN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const onSubmitCreateColumn = (e) => {
   e.preventDefault();
-  createColumNew("New", "bg-warning");
+  const columnName = e.target.elements.column_name.value;
+  createColumNew(columnName, "bg-warning");
 };
 const createColumNew = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
