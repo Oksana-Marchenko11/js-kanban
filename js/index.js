@@ -1,6 +1,7 @@
 const navbarList = document.querySelector(".navbar-nav");
 const formCreateProgect = document.querySelector(".form_create_project");
 const formAddTask = document.querySelector(".form_add_task");
+const formCreateColumn = document.querySelector(".form_create_column");
 const container = document.querySelector(".row");
 const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
@@ -47,6 +48,12 @@ const createColumStart = (columnHeader, headerColor) => {
   newCard.addEventListener("dragover", allowDrop);
   newCard.addEventListener("drop", drop);
 };
+
+//NEW COLUMN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const onSubmitCreateColumn = (e) => {
+  e.preventDefault();
+  createColumNew("New", "bg-warning");
+};
 const createColumNew = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
   newColumn.classList.add("col", "kb_column");
@@ -60,7 +67,7 @@ const createColumNew = (columnHeader, headerColor) => {
   newCard.addEventListener("dragover", allowDrop);
   newCard.addEventListener("drop", drop);
 };
-
+formCreateColumn.addEventListener("submit", onSubmitCreateColumn);
 // SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);
 function onSubmit(e) {
@@ -75,18 +82,18 @@ function onSubmit(e) {
   );
   navbarList.insertAdjacentHTML(
     "beforeend",
-    `<li class="nav-item"><button class="btn-primary add_column">Add new coloumn</button></li>`
+    `<li class="nav-item"><button class="btn-primary kb_add_column">Add new coloumn</button></li>`
   );
   navbarList.insertAdjacentHTML(
     "beforeend",
     `<li class="nav-item"><button type="submit" class="btn-primary add_task" data-bs-toggle="modal" data-bs-target="#create_task_modal">Add new task</button></li>`
   );
-  button_add_column = document.querySelector(".add_column");
+  button_add_column = document.querySelector(".kb_add_column");
   button_add_task = document.querySelector(".add_task");
   formAddTask.addEventListener("submit", addTask);
-  button_add_column.addEventListener("click", () => {
-    createColumNew("New", "bg-warning");
-  });
+  button_add_column.setAttribute("data-bs-toggle", "modal");
+  button_add_column.setAttribute("data-bs-target", "#create_column_modal");
+
   createColumStart("toDo", "bg-warning");
   createColumStart("Doing", "bg-warning");
   createColumStart("Done", "bg-warning");
