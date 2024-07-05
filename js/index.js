@@ -5,7 +5,7 @@ const formCreateColumn = document.querySelector(".form_create_column");
 const container = document.querySelector(".row");
 const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
-const kb_form_search = document.querySelector(".kb_form_search");
+const kb_input_search = document.querySelector(".kb_input_search");
 //FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function allowDrop(event) {
@@ -145,12 +145,11 @@ function tasksFilter(e) {
 
   tasks.forEach(function (task) {
     txtValue = task.textContent || task.innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      // || txtValue.length < 3
+    if (txtValue.toUpperCase().indexOf(filter) > -1 || filter.length < 3) {
       task.style.display = "";
     } else {
       task.style.display = "none";
     }
   });
 }
-kb_form_search.addEventListener("submit", tasksFilter);
+kb_input_search.addEventListener("input", tasksFilter);
