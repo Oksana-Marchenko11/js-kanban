@@ -6,6 +6,7 @@ const container = document.querySelector(".row");
 const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
 const kb_input_search = document.querySelector(".kb_input_search");
+const cards = document.querySelectorAll(".kb_card");
 //FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function allowDrop(event) {
@@ -13,13 +14,10 @@ function allowDrop(event) {
   if (event.target.classList.contains("droppable")) {
     event.target.style.backgroundColor = "";
   }
-  newCard.addEventListener("dragleave", dragleave);
 }
 function dragleave(event) {
   console.log("dragleave");
-  if (event.target.classList.contains("droppable")) {
-    event.target.style.backgroundColor = "grey";
-  }
+  event.target.style.backgroundColor = "grey";
 }
 
 function drop(event) {
@@ -46,6 +44,7 @@ const createColumStart = (columnHeader, headerColor) => {
   newColumn.appendChild(newCard);
 
   newCard.addEventListener("dragover", allowDrop);
+  newCard.addEventListener("dragleave", dragleave);
   newCard.addEventListener("drop", drop);
 };
 
