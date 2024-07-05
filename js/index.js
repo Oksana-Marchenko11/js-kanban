@@ -5,7 +5,7 @@ const formCreateColumn = document.querySelector(".form_create_column");
 const container = document.querySelector(".row");
 const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
-
+const kb_form_search = document.querySelector(".kb_form_search");
 //FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function allowDrop(event) {
@@ -135,3 +135,22 @@ function addTask(e) {
   }
   task.addEventListener("dragstart", dragstart_handler);
 }
+//Search///////////////////////////////////////////////////////////////////////////////////////////////////
+function tasksFilter(e) {
+  e.preventDefault();
+  const input = document.querySelector(".kb_input_search");
+  let filter = input.value.toUpperCase();
+  console.log(filter);
+  tasks = document.querySelectorAll(".kb_task_card");
+
+  tasks.forEach(function (task) {
+    txtValue = task.textContent || task.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      // || txtValue.length < 3
+      task.style.display = "";
+    } else {
+      task.style.display = "none";
+    }
+  });
+}
+kb_form_search.addEventListener("submit", tasksFilter);
