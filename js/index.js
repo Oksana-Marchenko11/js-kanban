@@ -9,6 +9,7 @@ const buttonCreateProject = document.querySelector(".create_prog");
 const kb_input_search = document.querySelector(".kb_input_search");
 const cards = document.querySelectorAll(".kb_card");
 
+//GET LAST PROJECT/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 fetch("http://localhost:3000/api/project")
   .then((response) => {
     return response.json();
@@ -19,8 +20,14 @@ fetch("http://localhost:3000/api/project")
         ? current
         : latest;
     });
-    console.log(lastData);
-    renderProject(lastData.name)
+        navbarList.insertAdjacentHTML(
+        "beforeend",
+        `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_prog" data-bs-toggle="modal" data-bs-target="#create_progect_modal">
+                                Create progect
+                            </button></li>`
+      );
+      renderProject(lastData.name);
+
     })
   .catch((error) => console.log(error));
 
@@ -84,7 +91,7 @@ const createColumNew = (columnHeader, headerColor) => {
   newCard.addEventListener("drop", drop);
 };
 formCreateColumn.addEventListener("submit", onSubmitCreateColumn);
-// SUBMIT CREATE PROGECT/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// SUBMIT CREATE PROGECT POST//////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);
 function onSubmit(e) {
   e.preventDefault();
@@ -104,10 +111,18 @@ function onSubmit(e) {
     .catch((error) => console.log(error));
 
   formCreateProgect.reset();
-  buttonCreateProject.style.display = "none";
-  renderProject(progectName);
+  // buttonCreateProject.style.display = "none";
+  navbarList.innerHTML="";
+  navbarList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_prog" data-bs-toggle="modal" data-bs-target="#create_progect_modal">
+                            Create progect
+                        </button></li>`
+  );
+      renderProject(progectName);
 }
 
+// FUNCTION RENDER PROGECT///////////////////////////////////////////////////////////////////////////////////////////////////
 function renderProject(projectName) {
   navbarList.insertAdjacentHTML(
     "beforeend",
