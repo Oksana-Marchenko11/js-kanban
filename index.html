@@ -66,6 +66,13 @@
                         </div>
                     </div>
                 </div>
+                <!-- Modal MY PROGECT-->
+                <div class="modal fade" id="my_progect_modal" tabindex="-1" aria-labelledby="my_progect_modal"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content"></div>
+                    </div>
+                </div>
                 <!-- Modal CREATE COLUMN-->
                 <div class="modal fade" id="create_column_modal" tabindex="-1" aria-labelledby="create_column_modal"
                     aria-hidden="true">
@@ -104,10 +111,10 @@
                             </div>
                             <form class="form_add_task">
                                 <div class="modal-body">
+                                    <label for="modal-input">Task name</label>
                                     <input type="text" name="task_name" id="modal-input" class="form-control"
-                                        placeholder="My project" aria-label="Project name"
-                                        aria-describedby="addon-wrapping">
-                                    <label for="textaria"></label>
+                                        placeholder="My task" aria-label="Task name" aria-describedby="addon-wrapping">
+                                    <label for="textaria">Task description</label>
                                     <textarea class="textaria_task" id="textaria" name="task_description"></textarea>
 
                                 </div>

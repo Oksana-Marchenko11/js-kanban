@@ -1,5 +1,6 @@
 const navbarList = document.querySelector(".navbar-nav");
 const formCreateProgect = document.querySelector(".form_create_project");
+const formMyProgect = document.querySelector(".form_create_project");
 const formAddTask = document.querySelector(".form_add_task");
 const formCreateColumn = document.querySelector(".form_create_column");
 const container = document.querySelector(".row");
@@ -7,6 +8,22 @@ const modalTask = document.getElementById("task_descroption_modal");
 const buttonCreateProject = document.querySelector(".create_prog");
 const kb_input_search = document.querySelector(".kb_input_search");
 const cards = document.querySelectorAll(".kb_card");
+
+fetch("http://localhost:3000/api/project")
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    lastData = data.reduce((latest, current) => {
+      return new Date(current.createdAt) > new Date(latest.createdAt)
+        ? current
+        : latest;
+    });
+    console.log(lastData);
+    renderProject(lastData.name)
+    })
+  .catch((error) => console.log(error));
+
 //FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function allowDrop(event) {
@@ -16,7 +33,6 @@ function allowDrop(event) {
   }
 }
 function dragleave(event) {
-  console.log("dragleave");
   event.target.style.backgroundColor = "grey";
 }
 
@@ -72,13 +88,30 @@ formCreateColumn.addEventListener("submit", onSubmitCreateColumn);
 formCreateProgect.addEventListener("submit", onSubmit);
 function onSubmit(e) {
   e.preventDefault();
-  value = formCreateProgect.elements.project_name.value;
+  const progectName = formCreateProgect.elements.project_name.value;
+  fetch("http://localhost:3000/Api/project", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: progectName,
+    }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => console.log(error));
+
   formCreateProgect.reset();
   buttonCreateProject.style.display = "none";
-  const progectName = value;
+  renderProject(progectName);
+}
+
+function renderProject(projectName) {
   navbarList.insertAdjacentHTML(
     "beforeend",
-    `<li class="nav-item, navbar-brand" >${progectName}</li>`
+    `<li class="nav-item, navbar-brand" >${projectName}</li>`
   );
   navbarList.insertAdjacentHTML(
     "beforeend",
@@ -97,11 +130,34 @@ function onSubmit(e) {
   createColumStart("toDo", "bg-warning");
   createColumStart("Doing", "bg-warning");
   createColumStart("Done", "bg-warning");
+
+  // fetch("http://localhost:3000/Api/tasks")
+  //   .then((response) => {
+  //     return response.json();
+  //   })
+  //   .then((response) => {
+  //     const resivedTask = response.map((response) => response.name);
+  //     return resivedTask;
+  //   })
+  //   .catch((error) => console.log(error));
 }
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
   e.preventDefault();
   const taskName = e.target.elements.task_name.value;
+  fetch("http://localhost:3000/Api/tasks", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: taskName }),
+  })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
   const task_area = document.getElementById("textaria");
   const taskDescription = task_area.value;
   const task = document.createElement("div");
@@ -127,7 +183,6 @@ function addTask(e) {
     event.dataTransfer.setData("text/plain", event.target.id);
     event.dataTransfer.dropEffect = "move";
     event.dataTransfer.effectAllowed = "move";
-    // console.log(event.dataTransfer);
     document.querySelectorAll(".droppable").forEach(function (element) {
       element.style.backgroundColor = "grey";
     });
@@ -139,7 +194,6 @@ function tasksFilter(e) {
   e.preventDefault();
   const input = document.querySelector(".kb_input_search");
   let filter = input.value.toUpperCase();
-  console.log(filter);
   tasks = document.querySelectorAll(".kb_task_card");
 
   tasks.forEach(function (task) {
