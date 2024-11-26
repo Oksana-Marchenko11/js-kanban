@@ -10,7 +10,8 @@ const kb_input_search = document.querySelector(".kb_input_search");
 const cards = document.querySelectorAll(".kb_card");
 
 //GET LAST PROJECT/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fetch("http://localhost:3000/api/project")
+let prodId;
+const currentProgect = () => {fetch("http://localhost:3000/api/project")
   .then((response) => {
     return response.json();
   })
@@ -27,9 +28,12 @@ fetch("http://localhost:3000/api/project")
                             </button></li>`
       );
       renderProject(lastData.name);
+      console.log(lastData._id);
+      prodId=lastData._id
+       })
+  .catch((error) => console.log(error));}
+  currentProgect();
 
-    })
-  .catch((error) => console.log(error));
 
 //FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,7 +80,22 @@ const onSubmitCreateColumn = (e) => {
   e.preventDefault();
   const columnName = e.target.elements.column_name.value;
   createColumNew(columnName, "bg-warning");
+  fetch("http://localhost:3000/Api/column", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: columnName,
+      projectId: prodId,
+    }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => console.log(error));
 };
+
 const createColumNew = (columnHeader, headerColor) => {
   const newColumn = document.createElement("div");
   newColumn.classList.add("col", "kb_column");
@@ -111,7 +130,6 @@ function onSubmit(e) {
     .catch((error) => console.log(error));
 
   formCreateProgect.reset();
-  // buttonCreateProject.style.display = "none";
   navbarList.innerHTML="";
   navbarList.insertAdjacentHTML(
     "beforeend",
@@ -142,19 +160,11 @@ function renderProject(projectName) {
   button_add_column.setAttribute("data-bs-toggle", "modal");
   button_add_column.setAttribute("data-bs-target", "#create_column_modal");
 
+  container.innerHTML="";
+   
   createColumStart("toDo", "bg-warning");
   createColumStart("Doing", "bg-warning");
   createColumStart("Done", "bg-warning");
-
-  // fetch("http://localhost:3000/Api/tasks")
-  //   .then((response) => {
-  //     return response.json();
-  //   })
-  //   .then((response) => {
-  //     const resivedTask = response.map((response) => response.name);
-  //     return resivedTask;
-  //   })
-  //   .catch((error) => console.log(error));
 }
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
@@ -165,7 +175,7 @@ function addTask(e) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: taskName }),
+    body: JSON.stringify({ name: taskName, projectId: "1" }),
   })
     .then((response) => {
       console.log(response);
