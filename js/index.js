@@ -161,10 +161,28 @@ function renderProject(projectName) {
   button_add_column.setAttribute("data-bs-target", "#create_column_modal");
 
   container.innerHTML="";
-   
+
+  const a = [];
+
+  async function allColumns (){
+    try {
+      const response = await fetch("http://localhost:3000/api/column");
+    const columns = await response.json();
+    a.push(...columns)} 
+    catch (error) {
+      console.log(error)
+    }    
+  }
+  
+allColumns().then(() => {
+  console.log(a); // Працюємо з масивом після завершення асинхронної операції
+});
+  
+  
   createColumStart("toDo", "bg-warning");
   createColumStart("Doing", "bg-warning");
   createColumStart("Done", "bg-warning");
+  createColumNew("West", "bg-warning");
 }
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
@@ -175,7 +193,7 @@ function addTask(e) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: taskName, projectId: "1" }),
+    body: JSON.stringify({ name: taskName, projectId: prodId, columnId: "8" }),
   })
     .then((response) => {
       console.log(response);
