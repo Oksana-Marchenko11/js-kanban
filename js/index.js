@@ -9,30 +9,29 @@ const buttonCreateProject = document.querySelector(".create_prog");
 const kb_input_search = document.querySelector(".kb_input_search");
 const cards = document.querySelectorAll(".kb_card");
 
-//GET LAST PROJECT/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//ЗМІННІ/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let prodId;
-const currentProgect = () => {fetch("http://localhost:3000/api/project")
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    lastData = data.reduce((latest, current) => {
+const allColumnCurrentProdId = [];
+
+//GET CURENT PROJECT//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const currentProgect = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/project");
+    const data = await response.json();
+    const lastData = data.reduce((latest, current) => {
       return new Date(current.createdAt) > new Date(latest.createdAt)
         ? current
         : latest;
     });
-        navbarList.insertAdjacentHTML(
-        "beforeend",
-        `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_prog" data-bs-toggle="modal" data-bs-target="#create_progect_modal">
-                                Create progect
-                            </button></li>`
-      );
-      renderProject(lastData.name);
-      console.log(lastData._id);
-      prodId=lastData._id
-       })
-  .catch((error) => console.log(error));}
-  currentProgect();
+    prodId = lastData._id;
+    console.log(prodId); // Перевірка, чи правильно встановлено ID
+    renderProject(lastData.name);
+  } catch (error) {
+    console.error(error);
+  }
+};
+currentProgect();
 
 
 //FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,27 +58,37 @@ function drop(event) {
 }
 
 //FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const createColumStart = (columnHeader, headerColor) => {
+
+const createColumn = (columnHeader, headerColor, addRowContainer = false) => {
   const newColumn = document.createElement("div");
   newColumn.classList.add("col", "kb_column");
+
   const newCard = document.createElement("div");
   newCard.classList.add("droppable", "card", "kb_card");
-  newCard.innerHTML = `<div class="card-header ${headerColor}\
-     text-white"><h3 class="kb_card_tile">${columnHeader}</h3></div>`;
-  container.classList.add("kb_row_container");
+  newCard.innerHTML = `
+    <div class="card-header ${headerColor} text-white">
+      <h3 class="kb_card_tile">${columnHeader}</h3>
+    </div>
+  `;
+
+  if (addRowContainer) {
+    container.classList.add("kb_row_container");
+  }
+  
   container.appendChild(newColumn);
   newColumn.appendChild(newCard);
 
+  // Додавання обробників подій
   newCard.addEventListener("dragover", allowDrop);
   newCard.addEventListener("dragleave", dragleave);
   newCard.addEventListener("drop", drop);
 };
 
-//NEW COLUMN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SUBMIT NEW COLUMN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const onSubmitCreateColumn = (e) => {
   e.preventDefault();
   const columnName = e.target.elements.column_name.value;
-  createColumNew(columnName, "bg-warning");
+  createColumn(columnName, "bg-warning");
   fetch("http://localhost:3000/Api/column", {
     method: "POST",
     headers: {
@@ -96,20 +105,24 @@ const onSubmitCreateColumn = (e) => {
     .catch((error) => console.log(error));
 };
 
-const createColumNew = (columnHeader, headerColor) => {
-  const newColumn = document.createElement("div");
-  newColumn.classList.add("col", "kb_column");
-  const newCard = document.createElement("div");
-  newCard.classList.add("droppable", "card", "kb_card");
-  newCard.innerHTML = `<div class="card-header ${headerColor}\
-     text-white"><h3 class="kb_card_tile">${columnHeader}</h3></div>`;
-  container.appendChild(newColumn);
-  newColumn.appendChild(newCard);
-
-  newCard.addEventListener("dragover", allowDrop);
-  newCard.addEventListener("drop", drop);
-};
 formCreateColumn.addEventListener("submit", onSubmitCreateColumn);
+
+//GET ALL COLUMNS WITH CURRENT PROJECT ID////////////////////////////////////////////////////////////////////////////////////////////////
+const getAllColumnCurrentProdId = async (prodId) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/column/by-project/${prodId}`);
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    const data = await response.json();
+    console.log(data); // Використайте ці дані за призначенням
+    const columnName = data.map(data => data.name);
+    columnName.forEach(column => allColumnCurrentProdId.push(column));
+    console.log(allColumnCurrentProdId);
+
+  } catch (error) {
+    console.error("Failed to fetch current project IDs:", error);
+  }
+};
+
 // SUBMIT CREATE PROGECT POST//////////////////////////////////////////////////////////////////////////////////////////////////////////
 formCreateProgect.addEventListener("submit", onSubmit);
 function onSubmit(e) {
@@ -122,6 +135,7 @@ function onSubmit(e) {
     },
     body: JSON.stringify({
       name: progectName,
+      projectId : prodId,
     }),
   })
     .then((response) => {
@@ -162,28 +176,20 @@ function renderProject(projectName) {
 
   container.innerHTML="";
 
-  const a = [];
-
-  async function allColumns (){
-    try {
-      const response = await fetch("http://localhost:3000/api/column");
-    const columns = await response.json();
-    a.push(...columns)} 
-    catch (error) {
-      console.log(error)
-    }    
+  if (prodId) {
+    getAllColumnCurrentProdId(prodId).then(() => {
+      allColumnCurrentProdId.forEach(column =>
+        createColumn(column, "bg-warning")
+      );
+    });
+  } else {
+    console.error("prodId is undefined!");
   }
-  
-allColumns().then(() => {
-  console.log(a); // Працюємо з масивом після завершення асинхронної операції
-});
-  
-  
-  createColumStart("toDo", "bg-warning");
-  createColumStart("Doing", "bg-warning");
-  createColumStart("Done", "bg-warning");
-  createColumNew("West", "bg-warning");
-}
+createColumn("To Do", "bg-warning", true); 
+createColumn("In progress", "bg-warning", true); 
+createColumn("Done", "bg-warning", true);
+};
+
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
   e.preventDefault();
@@ -249,3 +255,4 @@ function tasksFilter(e) {
   });
 }
 kb_input_search.addEventListener("input", tasksFilter);
+
