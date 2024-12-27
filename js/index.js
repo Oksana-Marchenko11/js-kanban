@@ -1,61 +1,81 @@
 const navbarList = document.querySelector(".navbar-nav");
 const formCreateProgect = document.querySelector(".form_create_project");
-const formMyProgect = document.querySelector(".form_create_project");
+const projectsList = document.querySelector(".projects_list");
 const formAddTask = document.querySelector(".form_add_task");
 const formCreateColumn = document.querySelector(".form_create_column");
 const container = document.querySelector(".row");
 const modalTask = document.getElementById("task_descroption_modal");
-const buttonCreateProject = document.querySelector(".create_prog");
 const kb_input_search = document.querySelector(".kb_input_search");
 const cards = document.querySelectorAll(".kb_card");
 
 //ЗМІННІ/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-let prodId;
+let currentNameProject = localStorage.getItem("name");
+let currentIdProject = localStorage.getItem("id");
 const allColumnCurrentProdId = [];
+const allProjects = [];
 
-//GET CURENT PROJECT//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const currentProgect = async () => {
+//GET ALL COLUMNS WITH CURRENT PROJECT NAME////////////////////////////////////////////////////////////////////////////////////////////////
+const getAllColumnCurrentProdId = async (projectId) => {
   try {
-    const response = await fetch("http://localhost:3000/api/project");
+    allColumnCurrentProdId.length = 0;
+    const response = await fetch(
+      `http://localhost:3000/api/column/by-project/${projectId}`
+    );
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
-    const lastData = data.reduce((latest, current) => {
-      return new Date(current.createdAt) > new Date(latest.createdAt)
-        ? current
-        : latest;
-    });
-    prodId = lastData._id;
-    console.log(prodId); // Перевірка, чи правильно встановлено ID
-    renderProject(lastData.name);
+    const columnName = data.map((data) => data.name);
+    columnName.forEach((column) => allColumnCurrentProdId.push(column));
+    console.log(allColumnCurrentProdId);
+  } catch (error) {
+    console.error("Failed to fetch current project IDs:", error);
+  }
+};
+
+//GET PROJECT BY NAME//////////////////////////////////////////////////////////////////////////////////////////////////////
+const projectByName = async (projectName) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/project/name/${projectName}`
+    );
+    const data = await response.json();
+    const nameOfProject = data[0].name;
+    const idOfProject = data[0]._id;
+    console.log(idOfProject);
+    localStorage.setItem("name", `${nameOfProject}`);
+    localStorage.setItem("id", `${idOfProject}`);
+    currentIdProject = localStorage.getItem("id");
+    container.innerHTML = "";
+    renderProject(nameOfProject);
   } catch (error) {
     console.error(error);
   }
 };
-currentProgect();
 
-
-//FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function allowDrop(event) {
-  event.preventDefault();
-  if (event.target.classList.contains("droppable")) {
-    event.target.style.backgroundColor = "";
+//MY PROJECTS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const getAllProjects = async () => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/project`);
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    const data = await response.json();
+    const projectsName = data.map((data) => data.name);
+    projectsName.forEach((project) => {
+      projectsList.insertAdjacentHTML(
+        "beforeend",
+        `<li class="list-group-item list-group-item-primary"><button>${project}</button></li>`
+      );
+    });
+  } catch (error) {
+    console.error("Failed to fetch all projects", error);
   }
-}
-function dragleave(event) {
-  event.target.style.backgroundColor = "grey";
-}
+};
+getAllProjects();
 
-function drop(event) {
-  event.preventDefault();
-  var data = event.dataTransfer.getData("text/plain");
-  var draggedElement = document.getElementById(data);
-  draggedElement.style.position = "static";
-  event.target.appendChild(draggedElement);
-  document.querySelectorAll(".droppable").forEach(function (element) {
-    element.style.backgroundColor = "";
-  });
-}
+projectsList.addEventListener("click", (event) => {
+  if (event.target.tagName === "BUTTON") {
+    const buttonText = event.target.textContent;
+    projectByName(buttonText);
+  }
+});
 
 //FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,7 +94,7 @@ const createColumn = (columnHeader, headerColor, addRowContainer = false) => {
   if (addRowContainer) {
     container.classList.add("kb_row_container");
   }
-  
+
   container.appendChild(newColumn);
   newColumn.appendChild(newCard);
 
@@ -96,7 +116,7 @@ const onSubmitCreateColumn = (e) => {
     },
     body: JSON.stringify({
       name: columnName,
-      projectId: prodId,
+      projectId: currentIdProject,
     }),
   })
     .then((response) => {
@@ -106,28 +126,54 @@ const onSubmitCreateColumn = (e) => {
 };
 
 formCreateColumn.addEventListener("submit", onSubmitCreateColumn);
+// FUNCTION RENDER PROGECT///////////////////////////////////////////////////////////////////////////////////////////////////
+async function renderProject(progectName) {
+  navbarList.innerHTML = "";
+  container.innerHTML = "";
 
-//GET ALL COLUMNS WITH CURRENT PROJECT ID////////////////////////////////////////////////////////////////////////////////////////////////
-const getAllColumnCurrentProdId = async (prodId) => {
-  try {
-    const response = await fetch(`http://localhost:3000/api/column/by-project/${prodId}`);
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
-    const data = await response.json();
-    console.log(data); // Використайте ці дані за призначенням
-    const columnName = data.map(data => data.name);
-    columnName.forEach(column => allColumnCurrentProdId.push(column));
-    console.log(allColumnCurrentProdId);
+  await getAllColumnCurrentProdId(currentIdProject);
 
-  } catch (error) {
-    console.error("Failed to fetch current project IDs:", error);
+  navbarList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="nav-item, navbar-brand" >${progectName}</li>`
+  );
+  navbarList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_prog" data-bs-toggle="modal" data-bs-target="#create_progect_modal">
+                            Create progect
+                        </button></li>`
+  );
+  navbarList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="nav-item"><button class="btn-primary your_projects" data-bs-toggle="modal" data-bs-target="#my_projects_modal">Your projects</button></li>`
+  );
+  navbarList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="nav-item"><button class="btn-primary kb_add_column" data-bs-toggle="modal" data-bs-target="#create_column_modal">Add new coloumn</button></li>`
+  );
+  navbarList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="nav-item"><button type="submit" class="btn-primary add_task" data-bs-toggle="modal" data-bs-target="#create_task_modal">Add new task</button></li>`
+  );
+  createColumn("To Do", "bg-warning", true);
+  createColumn("In progress", "bg-warning", true);
+  createColumn("Done", "bg-warning", true);
+
+  if (allColumnCurrentProdId.length > 0) {
+    allColumnCurrentProdId.forEach((column) =>
+      createColumn(column, "bg-warning")
+    );
+  } else {
+    console.error("No columns found for the current project.");
   }
-};
+}
 
-// SUBMIT CREATE PROGECT POST//////////////////////////////////////////////////////////////////////////////////////////////////////////
-formCreateProgect.addEventListener("submit", onSubmit);
-function onSubmit(e) {
+// SUBMIT CREATE PROGECT//////////////////////////////////////////////////////////////////////////////////////////////////////////
+formCreateProgect.addEventListener("submit", onSubmitProject);
+function onSubmitProject(e) {
   e.preventDefault();
   const progectName = formCreateProgect.elements.project_name.value;
+  localStorage.setItem("projectName", `${progectName}`);
   fetch("http://localhost:3000/Api/project", {
     method: "POST",
     headers: {
@@ -135,7 +181,6 @@ function onSubmit(e) {
     },
     body: JSON.stringify({
       name: progectName,
-      projectId : prodId,
     }),
   })
     .then((response) => {
@@ -144,51 +189,9 @@ function onSubmit(e) {
     .catch((error) => console.log(error));
 
   formCreateProgect.reset();
-  navbarList.innerHTML="";
-  navbarList.insertAdjacentHTML(
-    "beforeend",
-    `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_prog" data-bs-toggle="modal" data-bs-target="#create_progect_modal">
-                            Create progect
-                        </button></li>`
-  );
-      renderProject(progectName);
+  navbarList.innerHTML = "";
+  renderProject(progectName);
 }
-
-// FUNCTION RENDER PROGECT///////////////////////////////////////////////////////////////////////////////////////////////////
-function renderProject(projectName) {
-  navbarList.insertAdjacentHTML(
-    "beforeend",
-    `<li class="nav-item, navbar-brand" >${projectName}</li>`
-  );
-  navbarList.insertAdjacentHTML(
-    "beforeend",
-    `<li class="nav-item"><button class="btn-primary kb_add_column">Add new coloumn</button></li>`
-  );
-  navbarList.insertAdjacentHTML(
-    "beforeend",
-    `<li class="nav-item"><button type="submit" class="btn-primary add_task" data-bs-toggle="modal" data-bs-target="#create_task_modal">Add new task</button></li>`
-  );
-  button_add_column = document.querySelector(".kb_add_column");
-  button_add_task = document.querySelector(".add_task");
-  formAddTask.addEventListener("submit", addTask);
-  button_add_column.setAttribute("data-bs-toggle", "modal");
-  button_add_column.setAttribute("data-bs-target", "#create_column_modal");
-
-  container.innerHTML="";
-
-  if (prodId) {
-    getAllColumnCurrentProdId(prodId).then(() => {
-      allColumnCurrentProdId.forEach(column =>
-        createColumn(column, "bg-warning")
-      );
-    });
-  } else {
-    console.error("prodId is undefined!");
-  }
-createColumn("To Do", "bg-warning", true); 
-createColumn("In progress", "bg-warning", true); 
-createColumn("Done", "bg-warning", true);
-};
 
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addTask(e) {
@@ -199,7 +202,11 @@ function addTask(e) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: taskName, projectId: prodId, columnId: "8" }),
+    body: JSON.stringify({
+      name: taskName,
+      projectId: currentIdProject,
+      columnId: "8",
+    }),
   })
     .then((response) => {
       console.log(response);
@@ -238,6 +245,7 @@ function addTask(e) {
   }
   task.addEventListener("dragstart", dragstart_handler);
 }
+formAddTask.addEventListener("submit", addTask);
 //Search///////////////////////////////////////////////////////////////////////////////////////////////////
 function tasksFilter(e) {
   e.preventDefault();
@@ -256,3 +264,27 @@ function tasksFilter(e) {
 }
 kb_input_search.addEventListener("input", tasksFilter);
 
+//FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function allowDrop(event) {
+  event.preventDefault();
+  if (event.target.classList.contains("droppable")) {
+    event.target.style.backgroundColor = "";
+  }
+}
+function dragleave(event) {
+  event.target.style.backgroundColor = "grey";
+}
+
+function drop(event) {
+  event.preventDefault();
+  var data = event.dataTransfer.getData("text/plain");
+  var draggedElement = document.getElementById(data);
+  draggedElement.style.position = "static";
+  event.target.appendChild(draggedElement);
+  document.querySelectorAll(".droppable").forEach(function (element) {
+    element.style.backgroundColor = "";
+  });
+}
+
+renderProject(currentNameProject);
