@@ -61,7 +61,7 @@ const getAllProjects = async () => {
     projectsName.forEach((project) => {
       projectsList.insertAdjacentHTML(
         "beforeend",
-        `<li class="list-group-item list-group-item-primary"><button>${project}</button></li>`
+        `<li class="list-group-item list-group-item-primary"><button class="btn btn-primary">${project}</button></li>`
       );
     });
   } catch (error) {
