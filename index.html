@@ -66,88 +66,86 @@
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div><ul class="list-group projects_list"></ul></div>
-                        </div>
+                            <div>
+                                <ul class="list-group projects_list"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Modal CREATE COLUMN-->
-                <div class="modal fade" id="create_column_modal" tabindex="-1" aria-labelledby="create_column_modal"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form class="form_create_column">
-                                <div class="modal-body">
-                                    <input type="text" name="column_name" id="modal-input" class="form-control"
-                                        placeholder="My column" aria-label="Column name"
-                                        aria-describedby="addon-wrapping">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
-                                        changes</button>
-                                </div>
-                            </form>
+            </div>
+            <!-- Modal CREATE COLUMN-->
+            <div class="modal fade" id="create_column_modal" tabindex="-1" aria-labelledby="create_column_modal"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </div>
-                </div>
-                <!-- Modal CREATE TASK -->
-                <div class="modal fade" id="create_task_modal" tabindex="-1" aria-labelledby="create_task_modal"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form class="form_add_task">
-                                <div class="modal-body">
-                                    <label for="modal-input">Task name</label>
-                                    <input type="text" name="task_name" id="modal-input" class="form-control"
-                                        placeholder="My task" aria-label="Task name" aria-describedby="addon-wrapping">
-                                    <label for="textaria">Task description</label>
-                                    <textarea class="textaria_task" id="textaria" name="task_description"></textarea>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal TASK DESCRIPTION -->
-                <div class="modal fade" id="task_description_modal" tabindex="-1"
-                    aria-labelledby="task_description_modal" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content" style="height: 80vh">
-                            <div class="modal-header kb_task_header_modal">
-                                <h5 class="modal-title kb_task_name_modal"></h5>
-                                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button> -->
-                            </div>
+                        <form class="form_create_column">
                             <div class="modal-body">
-                                <p class="task_description_modal">
-                                </p>
+                                <input type="text" name="column_name" id="modal-input" class="form-control"
+                                    placeholder="My column" aria-label="Column name" aria-describedby="addon-wrapping">
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
+                                    changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal CREATE TASK -->
+            <div class="modal fade" id="create_task_modal" tabindex="-1" aria-labelledby="create_task_modal"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form class="form_add_task">
+                            <div class="modal-body">
+                                <label for="modal-input">Task name</label>
+                                <input type="text" name="task_name" id="modal-input" class="form-control"
+                                    placeholder="My task" aria-label="Task name" aria-describedby="addon-wrapping">
+                                <label for="textaria">Task description</label>
+                                <textarea class="textaria_task" id="textaria" name="task_description"></textarea>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal TASK DESCRIPTION -->
+            <div class="modal fade" id="task_description_modal" tabindex="-1" aria-labelledby="task_description_modal"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content" style="height: 80vh">
+                        <div class="modal-header kb_task_header_modal">
+                            <h5 class="modal-title kb_task_name_modal"></h5>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button> -->
+                        </div>
+                        <div class="modal-body">
+                            <p class="task_description_modal">
+                            </p>
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
     </main>
-    <script src="./js/index.js"></script>
+    <script type="module" src="./js/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+
 </body>
 
 </html>
