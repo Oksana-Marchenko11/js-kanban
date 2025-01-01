@@ -1,11 +1,11 @@
 //FUNCTIONS DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 export function allowDrop(event) {
   event.preventDefault();
   if (event.target.classList.contains("droppable")) {
     event.target.style.backgroundColor = "";
   }
 }
+
 export function dragleave(event) {
   event.target.style.backgroundColor = "grey";
 }

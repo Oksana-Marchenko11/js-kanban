@@ -1,11 +1,11 @@
-import { getAllColumnCurrentProdId, createColumn } from "./column.js";
-import { allColumnCurrentProdId } from "./column.js";
+import { getAllColumnCurrentProjectId, createColumn, dbAddColumn } from "./column.js";
 const navbarList = document.querySelector(".navbar-nav");
 const container = document.querySelector(".row");
 const projectsList = document.querySelector(".projects_list");
-const formCreateProgect = document.querySelector(".form_create_project");
+const formCreateProject = document.querySelector(".form_create_project");
 
-let currentIdProject = localStorage.getItem("id");
+let currentProject = JSON.parse(localStorage.getItem("project"));
+console.log(currentProject);
 
 //GET ALL PROJECTS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const getAllProjects = async () => {
@@ -13,13 +13,15 @@ export const getAllProjects = async () => {
     const response = await fetch(`http://localhost:3000/api/project`);
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
-    const projectsName = data.map((data) => data.name);
-    projectsName.forEach((project) => {
+    console.log(data);
+    // const projectsName = data.map((data) => data.name);
+      data.forEach((project) => {
       projectsList.insertAdjacentHTML(
         "beforeend",
-        `<li class="list-group-item list-group-item-primary"><button class="btn btn-primary">${project}</button></li>`
+        `<li class="list-group-item list-group-item-primary"><button data-id=${project._id} class="btn btn-primary">${project.name}</button></li>`
       );
     });
+    
   } catch (error) {
     console.error("Failed to fetch all projects", error);
   }
@@ -27,29 +29,29 @@ export const getAllProjects = async () => {
 getAllProjects();
 
 projectsList.addEventListener("click", (event) => {
-  if (event.target.tagName === "BUTTON") {
-    const buttonText = event.target.textContent;
-    projectByName(buttonText);
+    const projId = event.target.dataset.id;
+    console.log(projId);
+    projectById(projId);
   }
-});
-// FUNCTION RENDER PROGECT///////////////////////////////////////////////////////////////////////////////////////////////////
-export const renderProject = async (progectName) => {
+);
+// FUNCTION RENDER PROJECT///////////////////////////////////////////////////////////////////////////////////////////////////
+export const renderProject = async (projectName) => {
   if (!navbarList || !container) {
     console.error("Не знайдено необхідних елементів на сторінці.");
     return;
   }
   navbarList.innerHTML = "";
   container.innerHTML = "";
-  await getAllColumnCurrentProdId(currentIdProject);
+  const allColumnCurrentProdId = await getAllColumnCurrentProjectId(currentProject._id);
 
   navbarList.insertAdjacentHTML(
     "beforeend",
-    `<li class="nav-item, navbar-brand" >${progectName}</li>`
+    `<li class="nav-item, navbar-brand" >${projectName}</li>`
   );
   navbarList.insertAdjacentHTML(
     "beforeend",
-    `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_prog" data-bs-toggle="modal" data-bs-target="#create_progect_modal">
-                            Create progect
+    `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_project" data-bs-toggle="modal" data-bs-target="#create_project_modal">
+                            Create project
                         </button></li>`
   );
   navbarList.insertAdjacentHTML(
@@ -64,56 +66,60 @@ export const renderProject = async (progectName) => {
     "beforeend",
     `<li class="nav-item"><button type="submit" class="btn-primary add_task" data-bs-toggle="modal" data-bs-target="#create_task_modal">Add new task</button></li>`
   );
-  createColumn("To Do", "bg-warning", true);
-  createColumn("In progress", "bg-warning", true);
-  createColumn("Done", "bg-warning", true);
+
   if (allColumnCurrentProdId.length > 0) {
     allColumnCurrentProdId.forEach((column) =>
-      createColumn(column, "bg-warning")
+      createColumn(column)
     );
   } else {
     console.error("No columns found for the current project.");
   }
 };
-// SUBMIT CREATE PROGECT//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// SUBMIT CREATE PROJECT//////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function onSubmitProject(e) {
   e.preventDefault();
-  const progectName = formCreateProgect.elements.project_name.value;
-  localStorage.setItem("projectName", `${progectName}`);
+  const projectName = formCreateProject.elements.project_name.value;
+  localStorage.setItem("projectName", `${projectName}`);
   fetch("http://localhost:3000/Api/project", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      name: progectName,
+      name: projectName,
     }),
   })
-    .then((response) => {
-      return response.json();
-    })
-    .catch((error) => console.log(error));
+  .then((response) => response.json())
+  .then(data => {
+    console.log(data);
+    localStorage.setItem("project", JSON.stringify(data)); 
+    dbAddColumn({name: "To Do", projectId: data._id, color: 'bg-warning'});
+    dbAddColumn({name: "In progress", projectId: data._id, color: 'bg-warning'});
+    dbAddColumn({name: "Done", projectId: data._id, color: 'bg-warning'});
+    return data
+  })
+  .catch((error) => console.log(error));
 
-  formCreateProgect.reset();
+
+
+
+  formCreateProject.reset();
   navbarList.innerHTML = "";
-  renderProject(progectName);
+
+  renderProject(projectName);
 }
 
 //GET PROJECT BY NAME//////////////////////////////////////////////////////////////////////////////////////////////////////
-export const projectByName = async (projectName) => {
+export const projectById = async (projectId) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/project/name/${projectName}`
+      `http://localhost:3000/api/project/${projectId}`
     );
     const data = await response.json();
-    const nameOfProject = data[0].name;
-    const idOfProject = data[0]._id;
-    console.log(idOfProject);
-    localStorage.setItem("name", `${nameOfProject}`);
-    localStorage.setItem("id", `${idOfProject}`);
-    currentIdProject = localStorage.getItem("id");
+    localStorage.setItem("project", JSON.stringify(data));
+    currentProject = JSON.parse(localStorage.getItem("project"));
     container.innerHTML = "";
-    renderProject(nameOfProject);
+    renderProject(currentProject.name);
   } catch (error) {
     console.error(error);
   }

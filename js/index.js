@@ -7,9 +7,9 @@ const kb_input_search = document.querySelector(".kb_input_search");
 // const modalTask = document.getElementById("task_descroption_modal");
 // const cards = document.querySelectorAll(".kb_card");
 
-let currentNameProject = localStorage.getItem("name");
+let currentProject = JSON.parse(localStorage.getItem("project"));
 
-renderProject(currentNameProject);
+renderProject(currentProject.name);
 
 formAddTask.addEventListener("submit", addTask);
 kb_input_search.addEventListener("input", tasksFilter);
