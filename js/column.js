@@ -74,7 +74,7 @@ const onSubmitCreateColumn = (e) => {
     projectId: currentProject._id,
     color: 'bg-warning'
   };
-  dbAddColumn(clmn);
+  dbAddColumn(clmn).then(response => console.log(response));
   createColumn(clmn);
 };
 

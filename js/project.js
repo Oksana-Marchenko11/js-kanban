@@ -1,4 +1,8 @@
-import { getAllColumnCurrentProjectId, createColumn, dbAddColumn } from "./column.js";
+import {
+  getAllColumnCurrentProjectId,
+  createColumn,
+  dbAddColumn,
+} from "./column.js";
 const navbarList = document.querySelector(".navbar-nav");
 const container = document.querySelector(".row");
 const projectsList = document.querySelector(".projects_list");
@@ -14,14 +18,15 @@ export const getAllProjects = async () => {
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     console.log(data);
+    console.trace();
     // const projectsName = data.map((data) => data.name);
-      data.forEach((project) => {
+    data.forEach((project) => {
+      console.log(project.name);
       projectsList.insertAdjacentHTML(
         "beforeend",
         `<li class="list-group-item list-group-item-primary"><button data-id=${project._id} class="btn btn-primary">${project.name}</button></li>`
       );
     });
-    
   } catch (error) {
     console.error("Failed to fetch all projects", error);
   }
@@ -29,11 +34,10 @@ export const getAllProjects = async () => {
 getAllProjects();
 
 projectsList.addEventListener("click", (event) => {
-    const projId = event.target.dataset.id;
-    console.log(projId);
-    projectById(projId);
-  }
-);
+  const projId = event.target.dataset.id;
+  console.log(event.target);
+  projectById(projId);
+});
 // FUNCTION RENDER PROJECT///////////////////////////////////////////////////////////////////////////////////////////////////
 export const renderProject = async (projectName) => {
   if (!navbarList || !container) {
@@ -42,12 +46,15 @@ export const renderProject = async (projectName) => {
   }
   navbarList.innerHTML = "";
   container.innerHTML = "";
-  const allColumnCurrentProdId = await getAllColumnCurrentProjectId(currentProject._id);
-
-  navbarList.insertAdjacentHTML(
-    "beforeend",
-    `<li class="nav-item, navbar-brand" >${projectName}</li>`
+  const allColumnCurrentProdId = await getAllColumnCurrentProjectId(
+    currentProject._id
   );
+
+  projectName &&
+    navbarList.insertAdjacentHTML(
+      "beforeend",
+      `<li class="nav-item, navbar-brand" >${projectName}</li>`
+    );
   navbarList.insertAdjacentHTML(
     "beforeend",
     `<li class="nav-item, navbar-brand"><button type="button" class="btn btn-primary create_project" data-bs-toggle="modal" data-bs-target="#create_project_modal">
@@ -68,9 +75,7 @@ export const renderProject = async (projectName) => {
   );
 
   if (allColumnCurrentProdId.length > 0) {
-    allColumnCurrentProdId.forEach((column) =>
-      createColumn(column)
-    );
+    allColumnCurrentProdId.forEach((column) => createColumn(column));
   } else {
     console.error("No columns found for the current project.");
   }
@@ -89,19 +94,20 @@ export function onSubmitProject(e) {
       name: projectName,
     }),
   })
-  .then((response) => response.json())
-  .then(data => {
-    console.log(data);
-    localStorage.setItem("project", JSON.stringify(data)); 
-    dbAddColumn({name: "To Do", projectId: data._id, color: 'bg-warning'});
-    dbAddColumn({name: "In progress", projectId: data._id, color: 'bg-warning'});
-    dbAddColumn({name: "Done", projectId: data._id, color: 'bg-warning'});
-    return data
-  })
-  .catch((error) => console.log(error));
-
-
-
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      localStorage.setItem("project", JSON.stringify(data));
+      dbAddColumn({ name: "To Do", projectId: data._id, color: "bg-warning" });
+      dbAddColumn({
+        name: "In progress",
+        projectId: data._id,
+        color: "bg-warning",
+      });
+      dbAddColumn({ name: "Done", projectId: data._id, color: "bg-warning" });
+      return data;
+    })
+    .catch((error) => console.log(error));
 
   formCreateProject.reset();
   navbarList.innerHTML = "";
@@ -120,6 +126,7 @@ export const projectById = async (projectId) => {
     currentProject = JSON.parse(localStorage.getItem("project"));
     container.innerHTML = "";
     renderProject(currentProject.name);
+    // localStorage.setItem("project", `{ name: ${currentProject.name} }`);
   } catch (error) {
     console.error(error);
   }
