@@ -3,6 +3,22 @@ body {
     height: 100vh;
 }
 
+.about {
+    justify-content: space-around;
+    margin-top: 100px;
+}
+
+.about_description {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 28px;
+    width: 700px;
+}
+
+.btn_project {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 28px;
+}
+
 .list_navbar {
     display: flex;
     align-items: center;

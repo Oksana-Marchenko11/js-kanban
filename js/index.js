@@ -10,7 +10,7 @@ if (currentProject) {
   renderProject();
 } else {
   const about = document.querySelector(".about");
-  about.style.display = "block";
+  about.style.display = "flex";
 }
 formAddTask.addEventListener("submit", addTask);
 kb_input_search.addEventListener("input", tasksFilter);

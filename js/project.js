@@ -87,6 +87,8 @@ export const renderProject = async () => {
 
   if (allColumnCurrentProdId.length > 0) {
     allColumnCurrentProdId.forEach((column) => createColumn(column));
+    const about = document.querySelector(".about");
+    about.style.display = "none";
   } else {
     console.error("No columns found for the current project.");
   }
