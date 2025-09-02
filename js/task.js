@@ -3,9 +3,8 @@ let currentIdProject = localStorage.getItem("id");
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function addTask(e) {
   e.preventDefault();
-  console.log("lol");
   const taskName = e.target.elements.task_name.value;
-  fetch("http://localhost:3000/Api/tasks", {
+  fetch("http://kbapi.oksi.pp.ua/Api/tasks", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,11 +25,11 @@ export function addTask(e) {
   const taskDescription = task_area.value;
   const task = document.createElement("div");
 
-  const card = document.querySelector(".kb_card");
+  const column = document.querySelector(".kb_column");
 
   task.classList.add("bg-primary", "text-white", "card", "kb_task_card");
   task.textContent = taskName;
-  card.append(task);
+  column.append(task);
   task.setAttribute("data-bs-toggle", "modal");
   task.setAttribute("data-bs-target", "#task_description_modal");
   task.setAttribute("draggable", true);
