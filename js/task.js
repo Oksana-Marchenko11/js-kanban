@@ -1,7 +1,7 @@
-let currentIdProject = localStorage.getItem("id");
-
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function addTask(e) {
+  let currentProject = JSON.parse(localStorage.getItem("project"));
+  console.log(currentProject);
   e.preventDefault();
   const taskName = e.target.elements.task_name.value;
   fetch("http://kbapi.oksi.pp.ua/Api/tasks", {
@@ -11,8 +11,8 @@ export function addTask(e) {
     },
     body: JSON.stringify({
       name: taskName,
-      projectId: currentIdProject,
-      columnId: "8",
+      projectId: currentProject._id,
+      columnId: "9",
     }),
   })
     .then((response) => {
@@ -52,3 +52,18 @@ export function addTask(e) {
   }
   task.addEventListener("dragstart", dragstart_handler);
 }
+
+//GET ALL TASK WITH CURRENT PROJECT NAME////////////////////////////////////////////////////////////////////////////////////////////////
+export const getAllTaskCurrentProjectId = async (projectId) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/column/by-project/${projectId}`
+    );
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch current project IDs:", error);
+  }
+};

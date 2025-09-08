@@ -8,7 +8,6 @@ const container = document.querySelector(".row");
 const formCreateProject = document.querySelector(".form_create_project");
 const formAddTask = document.querySelector(".form_add_task");
 
-
 //GET ALL COLUMNS WITH CURRENT PROJECT NAME////////////////////////////////////////////////////////////////////////////////////////////////
 export const getAllColumnCurrentProjectId = async (projectId) => {
   try {
@@ -25,7 +24,7 @@ export const getAllColumnCurrentProjectId = async (projectId) => {
 };
 
 //FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export const createColumn = (clmn) => {
+export const renderColumn = (clmn) => {
   const newColumn = document.createElement("div");
   newColumn.classList.add("col", "kb_column", "droppable");
 
@@ -36,7 +35,7 @@ export const createColumn = (clmn) => {
       <h3 class="kb_card_tile">${clmn.name}</h3>
     </div>
   `;
-    container.classList.add("kb_row_container");//// всі колонки в одному рядку
+  container.classList.add("kb_row_container"); //// всі колонки в одному рядку
 
   container.appendChild(newColumn);
   // newColumn.appendChild(newCard);
@@ -57,10 +56,10 @@ export const dbAddColumn = (clmn) => {
     },
     body: JSON.stringify(clmn),
   })
-  .then((response) => {
-    return response.json();
-  })
-  .catch((error) => console.log(error));
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => console.log(error));
 };
 
 //SUBMIT NEW COLUMN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,10 +71,10 @@ const onSubmitCreateColumn = (e) => {
   const clmn = {
     name: columnName,
     projectId: currentProject._id,
-    color: 'bg-warning'
+    color: "bg-warning",
   };
-  dbAddColumn(clmn).then(response => console.log(response));
-  createColumn(clmn);
+  dbAddColumn(clmn);
+  renderColumn(clmn);
 };
 
 formCreateColumn.addEventListener("submit", onSubmitCreateColumn);

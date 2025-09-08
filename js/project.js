@@ -1,6 +1,6 @@
 import {
   getAllColumnCurrentProjectId,
-  createColumn,
+  renderColumn,
   dbAddColumn,
 } from "./column.js";
 const navbarList = document.querySelector(".navbar-nav");
@@ -86,7 +86,7 @@ export const renderProject = async () => {
   );
 
   if (allColumnCurrentProdId.length > 0) {
-    allColumnCurrentProdId.forEach((column) => createColumn(column));
+    allColumnCurrentProdId.forEach((column) => renderColumn(column));
     const about = document.querySelector(".about");
     about.style.display = "none";
   } else {
