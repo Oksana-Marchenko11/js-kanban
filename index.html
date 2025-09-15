@@ -2,167 +2,163 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <header class="header">
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-            <div class="container-fluid nav_div">
-                <a class="navbar-brand" href="#">LOGO</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 list_navbar">
-                        <li class="nav-item"></li>
-                    </ul>
-                    <div class="d-flex"><input class="form-control me-2 kb_input_search" type="search" name="search"
-                            placeholder="Search" aria-label="Search"></div>
+  <header class="header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+      <div class="container-fluid nav_div">
+        <a class="navbar-brand" href="#">LOGO</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 list_navbar">
+            <li class="nav-item"></li>
+          </ul>
+          <div class="d-flex"><input class="form-control me-2 kb_input_search" type="search" name="search"
+              placeholder="Search" aria-label="Search"></div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="section-main">
+      <div class="container-fluid">
+        <div class="row">
+        </div>
+        <!-- ABOUT-->
+        <div class="about" style="display: none;">
+          <img src="js/img/PRD-WhatIsKanban-1-792x446.webp" width="700" />
+          <p class="about_description">Welcome! Here you can manage your tasks with a simple Kanban board by
+            creating your own projects.
+            Right now the site is public, but login features are coming soon.
+            To get started, just click the button below &#128073; <br> <button type="button"
+              class="btn btn-primary btn_project" data-bs-toggle="modal" data-bs-target="#create_project_modal">Create
+              new project</button> <br>
+            Want to see existing projects? Just click here &#128073; <br>
+            <button class="btn btn-primary btn_project" data-bs-toggle="modal" data-bs-target="#my_projects_modal">View
+              available
+              project</button>
+          </p>
+        </div>
+        <!-- Modal CREATE PROJECT-->
+        <div class="modal fade" id="create_project_modal" tabindex="-1" aria-labelledby="create_project_modal"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Name Your Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form class="form_create_project">
+                <div class="modal-body">
+                  <input type="text" name="project_name" id="modal-input" class="form-control" placeholder="My project"
+                    aria-label="Project name" aria-describedby="addon-wrapping">
                 </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
+                    changes</button>
+                </div>
+              </form>
             </div>
-        </nav>
-    </header>
-    <main>
-        <section class="section-main">
-            <div class="container-fluid">
-                <div class="row">
-                </div>
-                <!-- ABOUT-->
-                <div class="about" style="display: none;">
-                    <img src="js/img/PRD-WhatIsKanban-1-792x446.webp" width="700" />
-                    <p class="about_description">Welcome! Here you can manage your tasks with a simple Kanban board by
-                        creating your own projects.
-                        Right now the site is public, but login features are coming soon.
-                        To get started, just click the button below &#128073; <br> <button type="button"
-                            class="btn btn-primary btn_project" data-bs-toggle="modal"
-                            data-bs-target="#create_project_modal">Create new project</button> <br>
-                        Want to see existing projects? Just click here &#128073; <br>
-                        <button class="btn btn-primary btn_project" data-bs-toggle="modal"
-                            data-bs-target="#my_projects_modal">View available
-                            project</button>
-                    </p>
-                </div>
-                <!-- Modal CREATE PROJECT-->
-                <div class="modal fade" id="create_project_modal" tabindex="-1" aria-labelledby="create_project_modal"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Name Your Project</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form class="form_create_project">
-                                <div class="modal-body">
-                                    <input type="text" name="project_name" id="modal-input" class="form-control"
-                                        placeholder="My project" aria-label="Project name"
-                                        aria-describedby="addon-wrapping">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
-                                        changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal MY PROJECT-->
-                <div class="modal fade" id="my_projects_modal" tabindex="-1" aria-labelledby="my_project_modal"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div>
-                                <ul class="list-group projects_list"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+        <!-- Modal MY PROJECT-->
+        <div class="modal fade" id="my_projects_modal" tabindex="-1" aria-labelledby="my_project_modal"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div>
+                <ul class="list-group projects_list"></ul>
+              </div>
             </div>
-            <!-- Modal CREATE COLUMN-->
-            <div class="modal fade" id="create_column_modal" tabindex="-1" aria-labelledby="create_column_modal"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form class="form_create_column">
-                            <div class="modal-body">
-                                <input type="text" name="column_name" id="modal-input" class="form-control"
-                                    placeholder="My column" aria-label="Column name" aria-describedby="addon-wrapping">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
-                                    changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal CREATE COLUMN-->
+      <div class="modal fade" id="create_column_modal" tabindex="-1" aria-labelledby="create_column_modal"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Name Your Column</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- Modal CREATE TASK -->
-            <div class="modal fade" id="create_task_modal" tabindex="-1" aria-labelledby="create_task_modal"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form class="form_add_task">
-                            <div class="modal-body">
-                                <label for="modal-input">Task name</label>
-                                <input type="text" name="task_name" id="modal-input" class="form-control"
-                                    placeholder="My task" aria-label="Task name" aria-describedby="addon-wrapping">
-                                <label for="textaria">Task description</label>
-                                <textarea class="textaria_task" id="textaria" name="task_description"></textarea>
+            <form class="form_create_column">
+              <div class="modal-body">
+                <input type="text" name="column_name" id="modal-input" class="form-control" placeholder="My column"
+                  aria-label="Column name" aria-describedby="addon-wrapping">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save
+                  changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Modal CREATE TASK -->
+      <div class="modal fade" id="create_task_modal" tabindex="-1" aria-labelledby="create_task_modal"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add task</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="form_add_task">
+              <div class="modal-body">
+                <label for="modal-input">Task name</label>
+                <input type="text" name="task_name" id="modal-input" class="form-control" placeholder="My task"
+                  aria-label="Task name" aria-describedby="addon-wrapping">
+                <label for="textaria">Task description</label>
+                <textarea class="textaria_task" id="textaria" name="task_description"></textarea>
 
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Modal TASK DESCRIPTION -->
+      <div class="modal fade" id="task_description_modal" tabindex="-1" aria-labelledby="task_description_modal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content" style="height: 80vh">
+            <div class="modal-header">
+              <h5 class="modal-title kb_task_name_modal"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <!-- Modal TASK DESCRIPTION -->
-            <div class="modal fade" id="task_description_modal" tabindex="-1" aria-labelledby="task_description_modal"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content" style="height: 80vh">
-                        <div class="modal-header">
-                            <h5 class="modal-title kb_task_name_modal"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="task_description_modal">
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body">
+              <p class="task_description_modal">
+              </p>
             </div>
-        </section>
-    </main>
-    <script type="module" src="./js/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./js/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
 
 </body>
 

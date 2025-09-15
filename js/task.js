@@ -1,7 +1,6 @@
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function addTask(e) {
+export function addTasktoDB(e) {
   let currentProject = JSON.parse(localStorage.getItem("project"));
-  console.log(currentProject);
   e.preventDefault();
   const taskName = e.target.elements.task_name.value;
   fetch("http://kbapi.oksi.pp.ua/Api/tasks", {
@@ -21,6 +20,8 @@ export function addTask(e) {
     .catch((error) => {
       console.error("Fetch error:", error);
     });
+}
+export function renderTasks() {
   const task_area = document.getElementById("textaria");
   const taskDescription = task_area.value;
   const task = document.createElement("div");
@@ -54,10 +55,10 @@ export function addTask(e) {
 }
 
 //GET ALL TASK WITH CURRENT PROJECT NAME////////////////////////////////////////////////////////////////////////////////////////////////
-export const getAllTaskCurrentProjectId = async (projectId) => {
+export const getAllTaskCurrentColumnAndProjectId = async (projectId) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/column/by-project/${projectId}`
+      `http://localhost:3000/api/tasks/projectId/${projectId}`
     );
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();

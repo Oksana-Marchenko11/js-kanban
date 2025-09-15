@@ -1,5 +1,5 @@
 import { renderProject, onSubmitProject } from "./project.js";
-import { addTask } from "./task.js";
+import { addTasktoDB } from "./task.js";
 import { tasksFilter } from "./search.js";
 const formAddTask = document.querySelector(".form_add_task");
 const kb_input_search = document.querySelector(".kb_input_search");
@@ -12,6 +12,6 @@ if (currentProject) {
   const about = document.querySelector(".about");
   about.style.display = "flex";
 }
-formAddTask.addEventListener("submit", addTask);
+formAddTask.addEventListener("submit", addTasktoDB);
 kb_input_search.addEventListener("input", tasksFilter);
 formCreateProject.addEventListener("submit", onSubmitProject);

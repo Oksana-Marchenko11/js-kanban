@@ -11,7 +11,7 @@ const formCreateProject = document.querySelector(".form_create_project");
 //GET ALL PROJECTS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const getAllProjects = async () => {
   try {
-    const response = await fetch(`http://kbapi.oksi.pp.ua/api/project`);
+    const response = await fetch(`http://localhost:3000/api/project`);
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     data.forEach((project) => {
@@ -98,7 +98,7 @@ export const renderProject = async () => {
 export function onSubmitProject(e) {
   e.preventDefault();
   const projectName = formCreateProject.elements.project_name.value;
-  fetch("http://kbapi.oksi.pp.ua/api/project", {
+  fetch("http://localhost:3000/api/project", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -136,7 +136,7 @@ export const projectById = async (projectId) => {
   console.log(projectId);
   try {
     const response = await fetch(
-      `http://kbapi.oksi.pp.ua/api/project/${projectId}`
+      `http://localhost:3000/api/project/${projectId}`
     );
     const data = await response.json();
     console.log(data);
