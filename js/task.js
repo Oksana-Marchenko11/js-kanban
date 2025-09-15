@@ -1,9 +1,11 @@
+import { API_URL } from "./config.js";
+
 // FUNCTION ADD TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function addTasktoDB(e) {
   let currentProject = JSON.parse(localStorage.getItem("project"));
   e.preventDefault();
   const taskName = e.target.elements.task_name.value;
-  fetch("http://kbapi.oksi.pp.ua/Api/tasks", {
+  fetch(`${API_URL}/api/tasks`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,9 +59,7 @@ export function renderTasks() {
 //GET ALL TASK WITH CURRENT PROJECT NAME////////////////////////////////////////////////////////////////////////////////////////////////
 export const getAllTaskCurrentColumnAndProjectId = async (projectId) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/tasks/projectId/${projectId}`
-    );
+    const response = await fetch(`${API_URL}/api/tasks/projectId/${projectId}`);
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
     console.log(data);

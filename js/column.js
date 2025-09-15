@@ -5,6 +5,7 @@ import {
   getAllTaskCurrentColumnAndProjectId,
   renderTasks,
 } from "./task.js";
+import { API_URL } from "./config.js";
 
 export let allColumnCurrentProjectId;
 const formCreateColumn = document.querySelector(".form_create_column");
@@ -16,7 +17,7 @@ const formAddTask = document.querySelector(".form_add_task");
 export const getAllColumnCurrentProjectId = async (projectId) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/column/by-project/${projectId}`
+      `${API_URL}/api/column/by-project/${projectId}`
     );
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
@@ -59,7 +60,7 @@ export const renderColumn = (clmn) => {
 //ADD COLUMN TO DB//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const dbAddColumn = (clmn) => {
-  fetch("http://localhost:3000/Api/column", {
+  fetch(`${API_URL}/api/column`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
