@@ -1,10 +1,6 @@
 import { onSubmitProject } from "./project.js";
 import { allowDrop, dragleave, drop } from "./dropfunction.js";
-import {
-  addTasktoDB,
-  getAllTaskCurrentColumnAndProjectId,
-  renderTasks,
-} from "./task.js";
+import { getAllTaskCurrentColumnAndProjectId, renderAllTasks } from "./task.js";
 import { API_URL } from "./config.js";
 
 export let allColumnCurrentProjectId;
@@ -50,11 +46,7 @@ export const renderColumn = (clmn) => {
   newColumn.addEventListener("dragleave", dragleave);
   newColumn.addEventListener("drop", drop);
   let currentProject = JSON.parse(localStorage.getItem("project"));
-  getAllTaskCurrentColumnAndProjectId(currentProject._id).then((data) =>
-    console.log(data)
-  );
-
-  // renderTasks(tasks);
+  renderAllTasks(currentProject._id);
 };
 
 //ADD COLUMN TO DB//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,6 +76,7 @@ const onSubmitCreateColumn = (e) => {
     projectId: currentProject._id,
     color: "bg-warning",
   };
+
   dbAddColumn(clmn);
   renderColumn(clmn);
 };
