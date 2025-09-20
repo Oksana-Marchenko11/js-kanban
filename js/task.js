@@ -77,13 +77,19 @@ export function renderAllTasks(currentProjectId) {
       taskElement.setAttribute("data-bs-target", "#task_description_modal");
       taskElement.setAttribute("draggable", true);
       taskElement.setAttribute("id", "task_id");
+
+      taskElement.addEventListener("click", () => {
+        const task_modal_name = document.querySelector(".kb_task_name_modal");
+        task_modal_name.textContent = task.name;
+
+        const task_modal_description = document.querySelector(
+          ".task_description_modal"
+        );
+        task_modal_description.textContent =
+          task.description || "No description";
+      });
       column.append(taskElement);
-      const task_modal_name = document.querySelector(".kb_task_name_modal");
-      task_modal_name.textContent = task.name;
-      const task_modal_description = document.querySelector(
-        ".task_description_modal"
-      );
-      task_modal_description.textContent = task.description;
+
       taskElement.addEventListener("dragstart", dragstart_handler);
     });
   });
