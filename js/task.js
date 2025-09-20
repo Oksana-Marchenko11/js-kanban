@@ -61,8 +61,6 @@ export function renderOneTask(taskName) {
 
 // FUNCTION RENDER ALL TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function renderAllTasks(currentProjectId) {
-  // const task_area = document.getElementById("textaria");
-  // const taskDescription = task_area.value;
   getAllTaskCurrentColumnAndProjectId(currentProjectId).then((data) => {
     console.log(data);
     data.forEach((task) => {
@@ -80,24 +78,22 @@ export function renderAllTasks(currentProjectId) {
       taskElement.setAttribute("draggable", true);
       taskElement.setAttribute("id", "task_id");
       column.append(taskElement);
+      const task_modal_name = document.querySelector(".kb_task_name_modal");
+      task_modal_name.textContent = task.name;
+      const task_modal_description = document.querySelector(
+        ".task_description_modal"
+      );
+      task_modal_description.textContent = task.description;
+      taskElement.addEventListener("dragstart", dragstart_handler);
     });
   });
-  // const task = document.createElement("div");
-
-  // const task_modal_name = document.querySelector(".kb_task_name_modal");
-  // task_modal_name.textContent = taskName;
-  // const task_modal_description = document.querySelector(
-  //   ".task_description_modal"
-  // );
-  // task_modal_description.textContent = taskDescription;
-
-  // function dragstart_handler(event) {
-  //   event.dataTransfer.setData("text/plain", event.target.id);
-  //   event.dataTransfer.dropEffect = "move";
-  //   event.dataTransfer.effectAllowed = "move";
-  //   document.querySelectorAll(".droppable").forEach(function (element) {
-  //     element.style.backgroundColor = "grey";
-  //   });
-  // }
-  // task.addEventListener("dragstart", dragstart_handler);
+}
+// FUNCTION DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function dragstart_handler(event) {
+  event.dataTransfer.setData("text/plain", event.target.id);
+  event.dataTransfer.dropEffect = "move";
+  event.dataTransfer.effectAllowed = "move";
+  document.querySelectorAll(".droppable").forEach(function (element) {
+    element.style.backgroundColor = "grey";
+  });
 }
