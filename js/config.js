@@ -1,1 +1,1 @@
-export const API_URL = "http://kbapi.oksi.pp.ua";
+export const API_URL = "https://kbapi.oksi.pp.ua";
