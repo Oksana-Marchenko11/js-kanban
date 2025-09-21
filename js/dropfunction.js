@@ -12,8 +12,8 @@ export function dragleave(event) {
 
 export function drop(event) {
   event.preventDefault();
-  var data = event.dataTransfer.getData("text/plain");
-  var draggedElement = document.getElementById(data);
+  const data = event.dataTransfer.getData("text/plain");
+  const draggedElement = document.getElementById(data);
   draggedElement.style.position = "static";
   event.target.appendChild(draggedElement);
   document.querySelectorAll(".droppable").forEach(function (element) {

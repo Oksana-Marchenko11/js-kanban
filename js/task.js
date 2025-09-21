@@ -28,7 +28,7 @@ export function addTasktoDB(e) {
       })
       .then((data) => {
         console.log(data);
-        renderOneTask(data.name);
+        renderOneTask(data);
         e.target.reset();
       })
       .catch((error) => {
@@ -54,16 +54,25 @@ export const getAllTaskCurrentColumnAndProjectId = async (
     console.error("Failed to fetch current project IDs:", error);
   }
 };
-export function renderOneTask(taskName) {
-  const column = document.querySelector(".kb_column");
+export function renderOneTask(task) {
+  const column = document.querySelector(`[data-column-id="${task.columnId}"]`);
   const newTask = document.createElement("div");
+
   newTask.classList.add("bg-primary", "text-white", "card", "kb_task_card");
-  newTask.textContent = taskName;
-  column.append(newTask);
+  newTask.textContent = task.name;
+
+  newTask.setAttribute("draggable", true);
+  newTask.setAttribute("id", task._id);
+  newTask.addEventListener("dragstart", dragstart_handler);
+
   newTask.setAttribute("data-bs-toggle", "modal");
   newTask.setAttribute("data-bs-target", "#task_description_modal");
-  newTask.setAttribute("draggable", true);
-  newTask.setAttribute("id", "task_id");
+  newTask.addEventListener("click", () => {
+    document.querySelector(".kb_task_name_modal").textContent = task.name;
+    document.querySelector(".task_description_modal").textContent =
+      task.description || "No description";
+  });
+  column.append(newTask);
 }
 
 // FUNCTION RENDER ALL TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +112,7 @@ export function renderAllTasks(currentProjectId, columnId) {
     }
   );
 }
-// FUNCTION DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// FUNCTION DRAG---DROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function dragstart_handler(event) {
   event.dataTransfer.setData("text/plain", event.target.id);
   event.dataTransfer.dropEffect = "move";

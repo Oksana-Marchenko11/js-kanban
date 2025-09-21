@@ -23,19 +23,18 @@ export const getAllColumnCurrentProjectId = async (projectId) => {
   }
 };
 
-//FUNCTION CREATE COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FUNCTION RENDER COLUMN///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const renderColumn = (clmn) => {
   const newColumn = document.createElement("div");
   newColumn.classList.add("col", "kb_column", "droppable");
+  newColumn.setAttribute("draggable", true);
 
-  // const newCard = document.createElement("div");
-  // newCard.classList.add("droppable", "card", "kb_card");
   newColumn.innerHTML = `
     <div class="card-header ${clmn.color} text-white" data-colomn-id=${clmn._id}>
       <h3 class="kb_card_tile">${clmn.name}</h3>
     </div>
   `;
-  container.classList.add("kb_row_container"); //// всі колонки в одному рядку
+  container.classList.add("kb_row_container");
 
   container.appendChild(newColumn);
   // newColumn.appendChild(newCard);
