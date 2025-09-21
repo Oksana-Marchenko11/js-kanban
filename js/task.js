@@ -7,38 +7,45 @@ export function addTasktoDB(e) {
   const taskName = e.target.elements.task_name.value;
   console.log(taskName);
   const taskDescription = e.target.elements.task_description.value;
-  fetch(`${API_URL}/api/tasks`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: taskName,
-      description: taskDescription,
-      projectId: currentProject._id,
-      columnId: "9",
-    }),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-      return response.json();
+  receiveColumnId(currentProject._id).then((columnId) => {
+    fetch(`${API_URL}/api/tasks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: taskName,
+        description: taskDescription,
+        projectId: currentProject._id,
+        columnId: columnId,
+      }),
     })
-    .then((data) => {
-      console.log(data);
-      renderOneTask(data.name);
-      e.target.reset();
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        renderOneTask(data.name);
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  });
 }
 
 //GET ALL TASK WITH CURRENT PROJECT NAME////////////////////////////////////////////////////////////////////////////////////////////////
-export const getAllTaskCurrentColumnAndProjectId = async (projectId) => {
+export const getAllTaskCurrentColumnAndProjectId = async (
+  projectId,
+  columnId
+) => {
   try {
-    const response = await fetch(`${API_URL}/api/tasks/projectId/${projectId}`);
+    const response = await fetch(
+      `${API_URL}/api/tasks/projectId/${projectId}/${columnId}`
+    );
     console.log(response.status);
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
@@ -60,39 +67,41 @@ export function renderOneTask(taskName) {
 }
 
 // FUNCTION RENDER ALL TASK//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-export function renderAllTasks(currentProjectId) {
-  getAllTaskCurrentColumnAndProjectId(currentProjectId).then((data) => {
-    console.log(data);
-    data.forEach((task) => {
-      const taskElement = document.createElement("div");
-      const column = document.querySelector(".kb_column");
-      taskElement.textContent = task.name;
-      taskElement.classList.add(
-        "bg-primary",
-        "text-white",
-        "card",
-        "kb_task_card"
-      );
-      taskElement.setAttribute("data-bs-toggle", "modal");
-      taskElement.setAttribute("data-bs-target", "#task_description_modal");
-      taskElement.setAttribute("draggable", true);
-      taskElement.setAttribute("id", "task_id");
-
-      taskElement.addEventListener("click", () => {
-        const task_modal_name = document.querySelector(".kb_task_name_modal");
-        task_modal_name.textContent = task.name;
-
-        const task_modal_description = document.querySelector(
-          ".task_description_modal"
+export function renderAllTasks(currentProjectId, columnId) {
+  getAllTaskCurrentColumnAndProjectId(currentProjectId, columnId).then(
+    (data) => {
+      console.log(data);
+      data.forEach((task) => {
+        const taskElement = document.createElement("div");
+        const column = document.querySelector(".kb_column");
+        taskElement.textContent = task.name;
+        taskElement.classList.add(
+          "bg-primary",
+          "text-white",
+          "card",
+          "kb_task_card"
         );
-        task_modal_description.textContent =
-          task.description || "No description";
-      });
-      column.append(taskElement);
+        taskElement.setAttribute("data-bs-toggle", "modal");
+        taskElement.setAttribute("data-bs-target", "#task_description_modal");
+        taskElement.setAttribute("draggable", true);
+        taskElement.setAttribute("id", "task_id");
 
-      taskElement.addEventListener("dragstart", dragstart_handler);
-    });
-  });
+        taskElement.addEventListener("click", () => {
+          const task_modal_name = document.querySelector(".kb_task_name_modal");
+          task_modal_name.textContent = task.name;
+
+          const task_modal_description = document.querySelector(
+            ".task_description_modal"
+          );
+          task_modal_description.textContent =
+            task.description || "No description";
+        });
+        column.append(taskElement);
+
+        taskElement.addEventListener("dragstart", dragstart_handler);
+      });
+    }
+  );
 }
 // FUNCTION DRAG---GROP///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function dragstart_handler(event) {
@@ -102,4 +111,24 @@ export function dragstart_handler(event) {
   document.querySelectorAll(".droppable").forEach(function (element) {
     element.style.backgroundColor = "grey";
   });
+}
+// FUNCTION RECEIVE COLUMN ID/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export async function receiveColumnId(currentProjectId) {
+  try {
+    const res = await fetch(
+      `${API_URL}/api/column/todo-by-project/${currentProjectId}`
+    );
+    if (!res.ok) throw new Error(`Error fetching column: ${res.status}`);
+    const data = await res.json();
+
+    const todoColumn = data.find((column) => column.name === "To Do");
+    if (!todoColumn) throw new Error("Todo column not found");
+
+    console.log("Todo columnId:", todoColumn._id);
+    return todoColumn._id;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
