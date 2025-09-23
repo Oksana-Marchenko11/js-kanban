@@ -15,7 +15,7 @@ Whether you're managing a big project or just daily to-dos — this board is her
 
 ## 🛠️ What will you able to do soon:)
 
-- 📝 **Edit, and delete tasks** inside any column  
+- 📝 **Edit and delete tasks** inside any column  
 - 🔁 **Drag & drop tasks** between columns  
 - 💾 All your data is saved on the server
 
